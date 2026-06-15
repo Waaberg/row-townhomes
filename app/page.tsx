@@ -371,9 +371,7 @@ export default function Home() {
           {/* Logo — white bg pill so JPG shows cleanly on dark nav */}
           <a href="#" className="flex items-center gap-3">
             <div className="bg-off-white rounded-sm px-2 py-1">
-              <div className="relative w-16 h-10">
-                <Image src="/images/logo.jpg" alt="The Row Townhomes at 2534" fill className="object-contain" sizes="64px" />
-              </div>
+              <img src="/images/logo.jpg" alt="The Row Townhomes at 2534" style={{ height: '40px', width: 'auto', display: 'block' }} />
             </div>
           </a>
 
@@ -451,23 +449,23 @@ export default function Home() {
       </section>
 
       {/* FEATURES — now first */}
-      <section id="features" className="py-20 px-8 bg-brown">
+      <section id="features" className="py-20 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
           <div className="reveal mb-14 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">What Is Included</p>
-            <h2 className="font-serif text-4xl sm:text-5xl text-off-white font-light">Every detail was a decision.</h2>
+            <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Every detail was a decision.</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {FEATURES.map((f, i) => (
-              <div key={i} className="bg-brown p-8 border border-white/5">
+              <div key={i} className="bg-cream-warm border border-soft-gray p-8">
                 <div className="w-6 h-px bg-taupe mb-6" />
-                <h3 className="font-serif text-lg text-off-white mb-3 font-light">{f.title}</h3>
-                <p className="font-sans text-off-white/45 text-sm leading-relaxed">{f.desc}</p>
+                <h3 className="font-serif text-lg text-brown mb-3 font-light">{f.title}</h3>
+                <p className="font-sans text-brown/55 text-sm leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
           <div className="reveal mt-12 text-center">
-            <a href="#contact" className="inline-block border border-champagne/50 text-champagne font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-champagne hover:text-brown transition-colors">
+            <a href="#contact" className="inline-block bg-brown text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-brown-mid transition-colors">
               Join the Interest List
             </a>
           </div>
@@ -478,7 +476,7 @@ export default function Home() {
       <section id="photos" className="py-20 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
           <div className="reveal mb-12 max-w-lg">
-            <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">The Addison &middot; Model Unit</p>
+            <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Photos</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Inside the residence.</h2>
             <p className="font-sans text-brown/50 mt-4 text-sm leading-relaxed">
               White oak floors. Honed stone. A layout organized around light and separation of space. Use the arrows to browse — click any photo to view full screen.
@@ -574,9 +572,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <div className="bg-off-white rounded-sm px-2 py-1">
-              <div className="relative w-14 h-9">
-                <Image src="/images/logo.jpg" alt="The Row at 2534" fill className="object-contain" sizes="56px" />
-              </div>
+              <img src="/images/logo.jpg" alt="The Row at 2534" style={{ height: '36px', width: 'auto', display: 'block' }} />
             </div>
             <div className="font-sans text-xs text-off-white/30">Johnstown, CO 80534</div>
           </div>

@@ -15,6 +15,7 @@ module.exports = {
         taupe:        '#A89060',   // warm taupe/gold — labels, accents
         champagne:    '#C9A97A',   // champagne — CTA buttons
         'off-white':  '#F5F2EC',   // page background
+        'cream-warm': '#EDE7D9',   // feature card background
         'soft-gray':  '#D9D5CF',   // borders, dividers
         charcoal:     '#1F1F1F',   // keep for text
         'deep-slate': '#2C3138',
