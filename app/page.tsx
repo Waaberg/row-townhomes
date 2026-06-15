@@ -685,8 +685,26 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="reveal reveal-d1" style={{ background: '#1F1508', padding: 44 }}>
-              <ContactFormInline />
+            <div className="reveal reveal-d1" style={{ background: '#1F1508', padding: 44, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 420 }}>
+              <div>
+                <div style={{ width: 24, height: 1, background: '#C9A97A', marginBottom: 32 }} />
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 300, color: '#F5F2EC', lineHeight: 1.1, marginBottom: 20 }}>See it<br />for yourself.</div>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(245,242,236,.5)', lineHeight: 1.8, marginBottom: 36 }}>
+                  Private tours are available by appointment. Come walk the units, see the finishes in person, and find the one that fits.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14, borderTop: '1px solid rgba(255,255,255,.08)', paddingTop: 28, marginBottom: 44 }}>
+                  {[['Response Time', 'Within one business day'], ['Tours', 'By appointment only'], ['Contact', 'hello@row2534.com']].map(([k, v]) => (
+                    <div key={k} style={{ display: 'flex', gap: 20 }}>
+                      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, letterSpacing: '.16em', textTransform: 'uppercase', color: '#A89887', width: 110, flexShrink: 0, paddingTop: 2 }}>{k}</span>
+                      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'rgba(245,242,236,.5)' }}>{v}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <a href="#contact-form" style={{ display: 'block', textAlign: 'center', background: '#C9A97A', color: '#1F1508', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '18px', textDecoration: 'none', fontWeight: 600, transition: 'background .2s' }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#F5F2EC')}
+                onMouseLeave={e => (e.currentTarget.style.background = '#C9A97A')}
+              >Schedule a Tour</a>
             </div>
           </div>
         </div>
