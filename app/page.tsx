@@ -33,8 +33,8 @@ const PHOTOS = [
 const PLANS = {
   addison: {
     name: 'The Addison',
-    tag: '3 Bed + Office · 4 Bath · 2-Car Garage',
-    beds: '3+', baths: '4', garage: '2',
+    tag: '3 Bed · 4 Bath · 2-Car Garage',
+    beds: '3', baths: '4', garage: '2',
     desc: 'Three bedrooms, a private office or den on the entry level, four baths arranged across three floors. The 2-car garage enters directly into the home. A covered patio off the living level.',
     details: [
       'Private office / den on entry level',
