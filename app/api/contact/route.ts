@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
               <tr style="border-top:1px solid #D9D0BF;"><td style="padding:10px 0;color:#666;vertical-align:top;">Phone</td><td style="padding:10px 0;color:#1F1F1F;">${phone || '—'}</td></tr>
               <tr style="border-top:1px solid #D9D0BF;"><td style="padding:10px 0;color:#666;vertical-align:top;">Floor Plan</td><td style="padding:10px 0;color:#1F1F1F;">${unit || '—'}</td></tr>
               <tr style="border-top:1px solid #D9D0BF;"><td style="padding:10px 0;color:#666;vertical-align:top;">Move-In Date</td><td style="padding:10px 0;color:#1F1F1F;">${timeline || '—'}</td></tr>
-              ${details.map(d => `<tr style="border-top:1px solid #D9D0BF;"><td style="padding:10px 0;color:#666;vertical-align:top;">${d.split(':')[0]}</td><td style="padding:10px 0;color:#1F1F1F;">${d.split(':').slice(1).join(':').trim() || '—'}</td></tr>`).join('')}
+              ${details.map((d: string) => `<tr style="border-top:1px solid #D9D0BF;"><td style="padding:10px 0;color:#666;vertical-align:top;">${d.split(':')[0]}</td><td style="padding:10px 0;color:#1F1F1F;">${d.split(':').slice(1).join(':').trim() || '—'}</td></tr>`).join('')}
               ${notes ? `<tr style="border-top:1px solid #D9D0BF;"><td style="padding:10px 0;color:#666;vertical-align:top;">Notes</td><td style="padding:10px 0;color:#1F1F1F;">${notes}</td></tr>` : ''}
             </table>
             <div style="margin-top:32px;padding-top:20px;border-top:1px solid #D9D0BF;font-family:Arial,sans-serif;font-size:12px;color:#999;">
