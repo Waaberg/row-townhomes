@@ -658,9 +658,8 @@ export default function Home() {
       <section id="sitemap" style={{ background: '#F5F2EC', padding: '90px 0' }}>
         <div style={S.wrap}>
           <div className="reveal" style={{ marginBottom: 48 }}>
-            <div style={S.eyebrow}>Interactive Site Map</div>
+            <div style={S.eyebrow}>Site Map</div>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(34px, 4vw, 52px)', fontWeight: 300, color: '#1F1508', marginBottom: 12, lineHeight: 1.1 }}>32 Residences.<br />Select a unit.</h2>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, color: '#2C3138', lineHeight: 1.7, maxWidth: 500, opacity: .65 }}>Click any unit on the site map to explore its floor plan, specifications, and tour options.</p>
           </div>
           <div className="reveal reveal-d1">
             <SiteMap />
