@@ -476,7 +476,7 @@ export default function Home() {
       </section>
 
       {/* STATS */}
-      <section className="bg-deep-slate py-10 px-8">
+      <section className="bg-charcoal py-10 px-8">
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
             { num: '32',     label: 'Residences' },
@@ -557,7 +557,7 @@ export default function Home() {
       </section>
 
       {/* LOCATION */}
-      <section id="location" className="py-20 px-8 bg-deep-slate">
+      <section id="location" className="py-20 px-8 bg-charcoal">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="reveal">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Location</p>
@@ -624,7 +624,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="reveal reveal-delay-1 bg-deep-slate p-8">
+          <div className="reveal reveal-delay-1 bg-charcoal/60 border border-white/5 p-8">
             <ContactForm />
           </div>
         </div>
