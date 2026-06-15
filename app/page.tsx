@@ -369,10 +369,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
 
           {/* Logo — white bg pill so JPG shows cleanly on dark nav */}
-          <a href="#" className="flex items-center gap-3">
-            <div className="bg-off-white rounded-sm px-2 py-1">
-              <img src="/images/logo.jpg" alt="The Row Townhomes at 2534" style={{ height: '40px', width: 'auto', display: 'block' }} />
-            </div>
+          <a href="#" className="flex flex-col leading-tight">
+            <span className="font-serif text-xl text-off-white tracking-wide">The Row</span>
+            <span className="font-sans text-xs text-taupe tracking-[0.2em] uppercase">Townhomes at 2534</span>
           </a>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -570,11 +569,10 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="bg-brown border-t border-white/5 py-10 px-8">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="bg-off-white rounded-sm px-2 py-1">
-              <img src="/images/logo.jpg" alt="The Row at 2534" style={{ height: '36px', width: 'auto', display: 'block' }} />
-            </div>
-            <div className="font-sans text-xs text-off-white/30">Johnstown, CO 80534</div>
+          <div className="flex flex-col leading-tight">
+            <span className="font-serif text-base text-off-white tracking-wide">The Row</span>
+            <span className="font-sans text-xs text-taupe tracking-[0.2em] uppercase">Townhomes at 2534</span>
+            <span className="font-sans text-xs text-off-white/30 mt-1">Johnstown, CO 80534</span>
           </div>
           <div className="flex flex-wrap gap-6 justify-center">
             {navLinks.map((l) => (
