@@ -4,28 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --charcoal:     #1F1F1F;
-  --deep-slate:   #2C3138;
-  --warm-taupe:   #A89887;
-  --deeper-taupe: #7A6852;
-  --soft-gray:    #D9D5CF;
-  --off-white:    #F5F2EC;
-  --champagne:    #C9A97A;
-  --brushed-gold: #B08D57;
-}
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--off-white);
-  color: var(--charcoal);
+  background-color: #F5F2EC;
+  color: #2C2016;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scroll reveal */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -42,6 +30,6 @@ body {
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--charcoal); }
-::-webkit-scrollbar-thumb { background: var(--warm-taupe); border-radius: 2px; }
-:focus-visible { outline: 2px solid var(--champagne); outline-offset: 3px; }
+::-webkit-scrollbar-track { background: #2C2016; }
+::-webkit-scrollbar-thumb { background: #A89060; border-radius: 2px; }
+:focus-visible { outline: 2px solid #C9A97A; outline-offset: 3px; }

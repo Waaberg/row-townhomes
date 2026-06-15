@@ -8,14 +8,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        charcoal:     '#1F1F1F',
+        // Browns pulled from logo
+        brown:        '#2C2016',   // dark brown — replaces charcoal
+        'brown-mid':  '#4A3728',   // mid brown — hover states, cards
+        'brown-light':'#7A5C3A',   // warm medium brown
+        taupe:        '#A89060',   // warm taupe/gold — labels, accents
+        champagne:    '#C9A97A',   // champagne — CTA buttons
+        'off-white':  '#F5F2EC',   // page background
+        'soft-gray':  '#D9D5CF',   // borders, dividers
+        charcoal:     '#1F1F1F',   // keep for text
         'deep-slate': '#2C3138',
-        taupe:        '#A89887',
-        'taupe-dark': '#7A6852',
-        'soft-gray':  '#D9D5CF',
-        'off-white':  '#F5F2EC',
-        champagne:    '#C9A97A',
-        gold:         '#B08D57',
       },
       fontFamily: {
         serif: ['Playfair Display', 'Georgia', 'serif'],

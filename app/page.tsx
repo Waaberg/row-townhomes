@@ -5,14 +5,14 @@ import Image from 'next/image'
 
 /* ─── DATA ─────────────────────────────────────────── */
 const FEATURES = [
-  { title: 'High-End Finishes',         desc: 'Quartz countertops. Luxury vinyl plank. Stainless appliances. Matte black hardware throughout.' },
-  { title: 'Private Fenced Yards',      desc: 'Each unit has its own enclosed outdoor space. Ground-level, fenced, yours.' },
-  { title: '2- & 3-Car Garages',        desc: 'Oversized attached garages. Built for trucks, gear, and everything that comes with living in Colorado.' },
-  { title: 'Tankless Hot Water',        desc: 'On-demand. No tank, no wait, no running out.' },
-  { title: 'Primary Suite with Balcony',desc: 'The primary bedroom opens to a private balcony. A floor dedicated to rest.' },
-  { title: 'Community Spaces',          desc: 'Pergola, fire pit, BBQ area, and a dedicated dog park. Shared amenities without the apartment-complex feel.' },
-  { title: 'Three-Story Floor Plans',   desc: 'Living on the main floor. Bedrooms on their own level. A layout that separates work, life, and sleep.' },
-  { title: 'Considered Throughout',     desc: 'From the entry threshold to the primary bath — every material, every finish, every detail was a decision.' },
+  { title: 'High-End Finishes',          desc: 'Quartz countertops. Luxury vinyl plank. Stainless appliances. Matte black hardware throughout.' },
+  { title: 'Private Fenced Yards',       desc: 'Each unit has its own enclosed outdoor space. Ground-level, fenced, yours.' },
+  { title: '2- & 3-Car Garages',         desc: 'Oversized attached garages. Built for trucks, gear, and everything that comes with living in Colorado.' },
+  { title: 'Tankless Hot Water',         desc: 'On-demand. No tank, no wait, no running out.' },
+  { title: 'Primary Suite with Balcony', desc: 'The primary bedroom opens to a private balcony. A floor dedicated to rest.' },
+  { title: 'Community Spaces',           desc: 'Pergola, fire pit, BBQ area, and a dedicated dog park. Shared amenities without the apartment-complex feel.' },
+  { title: 'Three-Story Floor Plans',    desc: 'Living on the main floor. Bedrooms on their own level. A layout that separates work, life, and sleep.' },
+  { title: 'Considered Throughout',      desc: 'From the entry threshold to the primary bath — every material, every finish, every detail was a decision.' },
 ]
 
 const PHOTOS = [
@@ -128,7 +128,7 @@ function ContactForm() {
     )
   }
 
-  const inputCls = 'w-full bg-charcoal border border-white/10 px-4 py-3 text-off-white placeholder-off-white/30 font-sans text-sm focus:outline-none focus:border-taupe transition-colors'
+  const inputCls = 'w-full bg-brown border border-white/10 px-4 py-3 text-off-white placeholder-off-white/30 font-sans text-sm focus:outline-none focus:border-taupe transition-colors'
   const labelCls = 'block text-taupe font-sans text-xs tracking-widest uppercase mb-2'
 
   return (
@@ -175,7 +175,7 @@ function ContactForm() {
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="w-full bg-champagne text-charcoal font-sans text-xs tracking-widest uppercase py-4 hover:bg-off-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+        className="w-full bg-champagne text-brown font-sans text-xs tracking-widest uppercase py-4 hover:bg-off-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
       >
         {status === 'sending' ? 'Sending...' : 'Request Information'}
       </button>
@@ -188,7 +188,6 @@ function ContactForm() {
 function PhotoCarousel() {
   const [current, setCurrent] = useState(0)
   const [lightbox, setLightbox] = useState<number | null>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
 
   const prev = () => setCurrent((c) => (c - 1 + PHOTOS.length) % PHOTOS.length)
   const next = () => setCurrent((c) => (c + 1) % PHOTOS.length)
@@ -208,125 +207,50 @@ function PhotoCarousel() {
     return () => window.removeEventListener('keydown', handleKey)
   }, [lightbox])
 
-  // Show 3 photos at a time on desktop, 1 on mobile
-  const visible = 3
-  const getVisiblePhotos = () => {
-    const result = []
-    for (let i = 0; i < visible; i++) {
-      result.push(PHOTOS[(current + i) % PHOTOS.length])
-    }
-    return result
-  }
+  const getVisible = () => [0, 1, 2].map(i => PHOTOS[(current + i) % PHOTOS.length])
 
   return (
     <>
-      {/* Main carousel */}
       <div className="relative">
-        {/* Desktop: 3-up */}
         <div className="hidden md:grid grid-cols-3 gap-3">
-          {getVisiblePhotos().map((p, i) => (
+          {getVisible().map((p, i) => (
             <button
               key={`${current}-${i}`}
               onClick={() => setLightbox((current + i) % PHOTOS.length)}
-              className={`relative overflow-hidden focus:outline-none group ${i === 1 ? 'aspect-[4/3]' : 'aspect-[4/3]'}`}
+              className="relative aspect-[4/3] overflow-hidden focus:outline-none group"
             >
-              <Image
-                src={p.src}
-                alt={p.label}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                sizes="33vw"
-              />
-              <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-300 flex items-end p-4">
-                <span className="text-off-white text-xs font-sans tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">
-                  {p.label}
-                </span>
+              <Image src={p.src} alt={p.label} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" sizes="33vw" />
+              <div className="absolute inset-0 bg-brown/0 group-hover:bg-brown/20 transition-colors duration-300 flex items-end p-4">
+                <span className="text-off-white text-xs font-sans tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">{p.label}</span>
               </div>
             </button>
           ))}
         </div>
-
-        {/* Mobile: single photo */}
         <div className="md:hidden relative aspect-[4/3]">
-          <Image
-            src={PHOTOS[current].src}
-            alt={PHOTOS[current].label}
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
+          <Image src={PHOTOS[current].src} alt={PHOTOS[current].label} fill className="object-cover" sizes="100vw" />
         </div>
-
-        {/* Nav arrows */}
-        <button
-          onClick={prev}
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-charcoal/70 hover:bg-charcoal text-off-white flex items-center justify-center transition-colors z-10 text-xl"
-          aria-label="Previous"
-        >&#8249;</button>
-        <button
-          onClick={next}
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-charcoal/70 hover:bg-charcoal text-off-white flex items-center justify-center transition-colors z-10 text-xl"
-          aria-label="Next"
-        >&#8250;</button>
+        <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-brown/70 hover:bg-brown text-off-white flex items-center justify-center transition-colors z-10 text-xl" aria-label="Previous">&#8249;</button>
+        <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-brown/70 hover:bg-brown text-off-white flex items-center justify-center transition-colors z-10 text-xl" aria-label="Next">&#8250;</button>
       </div>
-
-      {/* Dots */}
       <div className="flex justify-center gap-2 mt-6">
         {PHOTOS.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`w-1.5 h-1.5 rounded-full transition-colors ${i === current ? 'bg-champagne' : 'bg-charcoal/20'}`}
-            aria-label={`Go to photo ${i + 1}`}
-          />
+          <button key={i} onClick={() => setCurrent(i)} className={`w-1.5 h-1.5 rounded-full transition-colors ${i === current ? 'bg-champagne' : 'bg-brown/20'}`} aria-label={`Photo ${i + 1}`} />
         ))}
       </div>
-
-      {/* Counter */}
       <div className="text-center mt-3">
-        <span className="font-sans text-xs text-taupe tracking-widest uppercase">
-          {current + 1} / {PHOTOS.length}
-        </span>
+        <span className="font-sans text-xs text-taupe tracking-widest uppercase">{current + 1} / {PHOTOS.length}</span>
       </div>
 
-      {/* Lightbox */}
       {lightbox !== null && (
-        <div
-          className="fixed inset-0 bg-charcoal/97 z-50 flex items-center justify-center p-4"
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-5 right-5 text-off-white/50 hover:text-off-white text-3xl z-10"
-            onClick={() => setLightbox(null)}
-            aria-label="Close"
-          >&#x2715;</button>
-          <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2"
-            onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! - 1 + PHOTOS.length) % PHOTOS.length) }}
-            aria-label="Previous"
-          >&#8249;</button>
-          <div
-            className="relative max-w-4xl w-full max-h-[85vh] aspect-[4/3]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Image
-              src={PHOTOS[lightbox].src}
-              alt={PHOTOS[lightbox].label}
-              fill
-              className="object-contain"
-              sizes="90vw"
-              priority
-            />
+        <div className="fixed inset-0 bg-brown/97 z-50 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
+          <button className="absolute top-5 right-5 text-off-white/50 hover:text-off-white text-3xl z-10" onClick={() => setLightbox(null)} aria-label="Close">&#x2715;</button>
+          <button className="absolute left-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2" onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! - 1 + PHOTOS.length) % PHOTOS.length) }} aria-label="Previous">&#8249;</button>
+          <div className="relative max-w-4xl w-full max-h-[85vh] aspect-[4/3]" onClick={(e) => e.stopPropagation()}>
+            <Image src={PHOTOS[lightbox].src} alt={PHOTOS[lightbox].label} fill className="object-contain" sizes="90vw" priority />
           </div>
-          <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2"
-            onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! + 1) % PHOTOS.length) }}
-            aria-label="Next"
-          >&#8250;</button>
+          <button className="absolute right-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2" onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! + 1) % PHOTOS.length) }} aria-label="Next">&#8250;</button>
           <div className="absolute bottom-5 left-0 right-0 text-center">
-            <span className="text-off-white/40 font-sans text-xs tracking-widest uppercase">
-              {PHOTOS[lightbox].label} &middot; {lightbox + 1} / {PHOTOS.length}
-            </span>
+            <span className="text-off-white/40 font-sans text-xs tracking-widest uppercase">{PHOTOS[lightbox].label} &middot; {lightbox + 1} / {PHOTOS.length}</span>
           </div>
         </div>
       )}
@@ -338,9 +262,6 @@ function PhotoCarousel() {
 function FloorPlanImages({ floors }: { floors: { label: string; img: string }[] }) {
   const [lightbox, setLightbox] = useState<number | null>(null)
 
-  // Check if real images exist (not placeholder paths)
-  const hasImages = floors.some(f => !f.img.includes('placeholder'))
-
   return (
     <>
       <div className="grid grid-cols-3 gap-3">
@@ -351,22 +272,8 @@ function FloorPlanImages({ floors }: { floors: { label: string; img: string }[] 
               className="w-full relative aspect-[3/4] bg-soft-gray/30 border border-soft-gray overflow-hidden group focus:outline-none focus:ring-1 focus:ring-champagne block"
               aria-label={`View ${f.label}`}
             >
-              <Image
-                src={f.img}
-                alt={f.label}
-                fill
-                className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
-                sizes="(max-width: 768px) 33vw, 20vw"
-                onError={(e) => {
-                  // Hide if image doesn't exist
-                  (e.target as HTMLImageElement).style.display = 'none'
-                }}
-              />
-              <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/10 transition-colors duration-300 flex items-center justify-center">
-                <span className="text-charcoal/0 group-hover:text-charcoal/50 font-sans text-xs tracking-widest uppercase transition-colors duration-300">
-                  Expand
-                </span>
-              </div>
+              <Image src={f.img} alt={f.label} fill className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 33vw, 20vw" />
+              <div className="absolute inset-0 bg-brown/0 group-hover:bg-brown/10 transition-colors duration-300" />
             </button>
             <span className="font-sans text-xs text-taupe tracking-widest uppercase mt-2 block">{f.label}</span>
           </div>
@@ -374,42 +281,15 @@ function FloorPlanImages({ floors }: { floors: { label: string; img: string }[] 
       </div>
 
       {lightbox !== null && (
-        <div
-          className="fixed inset-0 bg-charcoal/97 z-50 flex items-center justify-center p-4"
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-5 right-5 text-off-white/50 hover:text-off-white text-3xl z-10"
-            onClick={() => setLightbox(null)}
-            aria-label="Close"
-          >&#x2715;</button>
-          <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2"
-            onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! - 1 + floors.length) % floors.length) }}
-            aria-label="Previous"
-          >&#8249;</button>
-          <div
-            className="relative w-full max-w-lg max-h-[85vh] aspect-[3/4] bg-white"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Image
-              src={floors[lightbox].img}
-              alt={floors[lightbox].label}
-              fill
-              className="object-contain p-4"
-              sizes="90vw"
-              priority
-            />
+        <div className="fixed inset-0 bg-brown/97 z-50 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
+          <button className="absolute top-5 right-5 text-off-white/50 hover:text-off-white text-3xl z-10" onClick={() => setLightbox(null)} aria-label="Close">&#x2715;</button>
+          <button className="absolute left-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2" onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! - 1 + floors.length) % floors.length) }} aria-label="Previous">&#8249;</button>
+          <div className="relative w-full max-w-lg max-h-[85vh] aspect-[3/4] bg-white" onClick={(e) => e.stopPropagation()}>
+            <Image src={floors[lightbox].img} alt={floors[lightbox].label} fill className="object-contain p-4" sizes="90vw" priority />
           </div>
-          <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2"
-            onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! + 1) % floors.length) }}
-            aria-label="Next"
-          >&#8250;</button>
+          <button className="absolute right-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2" onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! + 1) % floors.length) }} aria-label="Next">&#8250;</button>
           <div className="absolute bottom-5 left-0 right-0 text-center">
-            <span className="text-off-white/40 font-sans text-xs tracking-widest uppercase">
-              {floors[lightbox].label}
-            </span>
+            <span className="text-off-white/40 font-sans text-xs tracking-widest uppercase">{floors[lightbox].label}</span>
           </div>
         </div>
       )}
@@ -426,59 +306,42 @@ function FloorPlans() {
     <div>
       <div className="flex gap-0 mb-12 border-b border-soft-gray">
         {FLOOR_PLANS.map((p, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
+          <button key={i} onClick={() => setActive(i)}
             className={`px-8 py-4 font-serif text-xl transition-all duration-200 border-b-2 -mb-px focus:outline-none ${
-              active === i ? 'text-charcoal border-charcoal' : 'text-charcoal/30 border-transparent hover:text-charcoal/60'
+              active === i ? 'text-brown border-brown' : 'text-brown/30 border-transparent hover:text-brown/60'
             }`}
-          >
-            {p.name}
-          </button>
+          >{p.name}</button>
         ))}
       </div>
 
       <div className="grid lg:grid-cols-2 gap-16 items-start">
         <div>
           <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-2">{plan.tag}</p>
-
           <div className="flex gap-10 my-6 py-6 border-t border-b border-soft-gray">
-            {[
-              { label: 'Bedrooms', val: plan.beds },
-              { label: 'Baths',    val: plan.baths },
-              { label: 'Garage',   val: plan.garage },
-            ].map((s) => (
+            {[{ label: 'Bedrooms', val: plan.beds }, { label: 'Baths', val: plan.baths }, { label: 'Garage', val: plan.garage }].map((s) => (
               <div key={s.label}>
-                <div className="font-serif text-3xl text-charcoal font-light">{s.val}</div>
+                <div className="font-serif text-3xl text-brown font-light">{s.val}</div>
                 <div className="font-sans text-xs text-taupe tracking-widest uppercase mt-1">{s.label}</div>
               </div>
             ))}
           </div>
-
-          <p className="font-sans text-charcoal/70 text-sm leading-relaxed mb-8">{plan.desc}</p>
-
+          <p className="font-sans text-brown/70 text-sm leading-relaxed mb-8">{plan.desc}</p>
           <ul className="space-y-3 mb-10">
             {plan.details.map((d, i) => (
-              <li key={i} className="flex items-start gap-3 font-sans text-sm text-charcoal/70">
+              <li key={i} className="flex items-start gap-3 font-sans text-sm text-brown/70">
                 <span className="w-px h-4 bg-taupe flex-shrink-0 mt-0.5" />
                 {d}
               </li>
             ))}
           </ul>
-
           <div className="mb-8">
             <div className="font-sans text-xs tracking-widest uppercase text-taupe mb-2">Starting At</div>
-            <div className="font-serif text-5xl text-charcoal font-light">$2,795<span className="text-xl text-taupe">/mo</span></div>
+            <div className="font-serif text-5xl text-brown font-light">$2,795<span className="text-xl text-taupe">/mo</span></div>
           </div>
-
-          <a
-            href="#contact"
-            className="inline-block border border-charcoal text-charcoal font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-charcoal hover:text-off-white transition-colors"
-          >
+          <a href="#contact" className="inline-block border border-brown text-brown font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-brown hover:text-off-white transition-colors">
             Request a Tour
           </a>
         </div>
-
         <FloorPlanImages floors={plan.floors} />
       </div>
     </div>
@@ -491,8 +354,8 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const navLinks = [
-    { href: '#photos',      label: 'Photos' },
     { href: '#features',    label: 'Features' },
+    { href: '#photos',      label: 'Photos' },
     { href: '#floor-plans', label: 'Floor Plans' },
     { href: '#location',    label: 'Location' },
     { href: '#contact',     label: 'Contact' },
@@ -501,16 +364,16 @@ export default function Home() {
   return (
     <div className="bg-off-white min-h-screen">
 
-      {/* ── NAV ── */}
-      <header className="fixed top-0 left-0 right-0 z-40 bg-charcoal border-b border-white/5">
+      {/* NAV */}
+      <header className="fixed top-0 left-0 right-0 z-40 bg-brown border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
 
-          {/* Logo */}
-          <a href="#" className="flex items-center">
-            <div className="relative w-10 h-10">
-              <Image src="/images/logo.jpg" alt="The Row Townhomes at 2534" fill className="object-contain" sizes="40px" />
+          {/* Logo — white bg pill so JPG shows cleanly on dark nav */}
+          <a href="#" className="flex items-center gap-3">
+            <div className="relative w-9 h-9 rounded-sm overflow-hidden bg-off-white flex items-center justify-center">
+              <Image src="/images/logo.jpg" alt="The Row Townhomes at 2534" fill className="object-contain p-0.5" sizes="36px" />
             </div>
-            <div className="ml-3 hidden sm:block">
+            <div className="hidden sm:block">
               <div className="font-serif text-sm text-off-white leading-tight">The Row</div>
               <div className="font-sans text-xs text-taupe tracking-widest uppercase leading-tight">at 2534</div>
             </div>
@@ -518,21 +381,15 @@ export default function Home() {
 
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((l) => (
-              <a key={l.href} href={l.href} className="font-sans text-xs text-off-white/50 tracking-widest uppercase hover:text-champagne transition-colors">
-                {l.label}
-              </a>
+              <a key={l.href} href={l.href} className="font-sans text-xs text-off-white/50 tracking-widest uppercase hover:text-champagne transition-colors">{l.label}</a>
             ))}
           </nav>
 
-          <a href="#contact" className="hidden md:block border border-champagne/60 text-champagne font-sans text-xs tracking-widest uppercase px-5 py-2.5 hover:bg-champagne hover:text-charcoal transition-colors">
+          <a href="#contact" className="hidden md:block border border-champagne/60 text-champagne font-sans text-xs tracking-widest uppercase px-5 py-2.5 hover:bg-champagne hover:text-brown transition-colors">
             Request a Tour
           </a>
 
-          <button
-            className="md:hidden text-off-white p-2"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          >
+          <button className="md:hidden text-off-white p-2" onClick={() => setMenuOpen((o) => !o)} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
             <div className={`w-5 h-px bg-off-white mb-1.5 transition-all duration-200 ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
             <div className={`w-5 h-px bg-off-white mb-1.5 transition-all duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
             <div className={`w-5 h-px bg-off-white transition-all duration-200 ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
@@ -540,38 +397,26 @@ export default function Home() {
         </div>
 
         {menuOpen && (
-          <nav className="md:hidden bg-charcoal border-t border-white/5 px-8 py-6 flex flex-col gap-5">
+          <nav className="md:hidden bg-brown border-t border-white/5 px-8 py-6 flex flex-col gap-5">
             {navLinks.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="font-sans text-xs text-off-white/60 tracking-widest uppercase hover:text-champagne transition-colors">
-                {l.label}
-              </a>
+              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="font-sans text-xs text-off-white/60 tracking-widest uppercase hover:text-champagne transition-colors">{l.label}</a>
             ))}
-            <a href="#contact" onClick={() => setMenuOpen(false)} className="border border-champagne/60 text-champagne font-sans text-xs tracking-widest uppercase px-5 py-3 hover:bg-champagne hover:text-charcoal transition-colors text-center mt-2">
+            <a href="#contact" onClick={() => setMenuOpen(false)} className="border border-champagne/60 text-champagne font-sans text-xs tracking-widest uppercase px-5 py-3 hover:bg-champagne hover:text-brown transition-colors text-center mt-2">
               Request a Tour
             </a>
           </nav>
         )}
       </header>
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section className="relative h-screen min-h-[640px] flex items-end">
         <div className="absolute inset-0">
-          <Image
-            src="/images/exterior-street.jpg"
-            alt="The Row Townhomes at 2534 — Loveland, CO"
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/30 to-charcoal/5" />
+          <Image src="/images/exterior-street.jpg" alt="The Row Townhomes at 2534 — Loveland, CO" fill className="object-cover" priority sizes="100vw" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brown/85 via-brown/30 to-brown/5" />
         </div>
-
         <div className="relative z-10 max-w-7xl mx-auto px-8 pb-20 w-full">
           <div className="max-w-2xl">
-            <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-5">
-              Loveland, Colorado &middot; Now Leasing
-            </p>
+            <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-5">Loveland, Colorado &middot; Now Leasing</p>
             <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-off-white font-light leading-[1.05] mb-6">
               Three-story townhomes,<br />built to be lived in.
             </h1>
@@ -579,19 +424,19 @@ export default function Home() {
               32 residences at Exposition Drive and Thompson Parkway. Three bedrooms, private fenced yards, oversized garages. Starting at $2,795/mo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#contact" className="bg-champagne text-charcoal font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-off-white transition-colors font-medium text-center">
+              <a href="#contact" className="bg-champagne text-brown font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-off-white transition-colors font-medium text-center">
                 Request a Tour
               </a>
-              <a href="#photos" className="border border-off-white/25 text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:border-off-white/60 transition-colors text-center">
-                View Photos
+              <a href="#features" className="border border-off-white/25 text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:border-off-white/60 transition-colors text-center">
+                Explore Features
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── STATS ── */}
-      <section className="bg-charcoal py-10 px-8">
+      {/* STATS */}
+      <section className="bg-brown py-10 px-8">
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
             { num: '32',     label: 'Residences' },
@@ -607,13 +452,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PHOTOS ── */}
+      {/* FEATURES — now first */}
+      <section id="features" className="py-20 px-8 bg-brown">
+        <div className="max-w-7xl mx-auto">
+          <div className="reveal mb-14 max-w-lg">
+            <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">What Is Included</p>
+            <h2 className="font-serif text-4xl sm:text-5xl text-off-white font-light">Every detail was a decision.</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+            {FEATURES.map((f, i) => (
+              <div key={i} className="bg-brown p-8 border border-white/5">
+                <div className="w-6 h-px bg-taupe mb-6" />
+                <h3 className="font-serif text-lg text-off-white mb-3 font-light">{f.title}</h3>
+                <p className="font-sans text-off-white/45 text-sm leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="reveal mt-12 text-center">
+            <a href="#contact" className="inline-block border border-champagne/50 text-champagne font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-champagne hover:text-brown transition-colors">
+              Join the Interest List
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* PHOTOS — now after features */}
       <section id="photos" className="py-20 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
           <div className="reveal mb-12 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">The Addison &middot; Model Unit</p>
-            <h2 className="font-serif text-4xl sm:text-5xl text-charcoal font-light">Inside the residence.</h2>
-            <p className="font-sans text-charcoal/50 mt-4 text-sm leading-relaxed">
+            <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Inside the residence.</h2>
+            <p className="font-sans text-brown/50 mt-4 text-sm leading-relaxed">
               White oak floors. Honed stone. A layout organized around light and separation of space. Use the arrows to browse — click any photo to view full screen.
             </p>
           </div>
@@ -623,39 +492,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FEATURES ── */}
-      <section id="features" className="py-20 px-8 bg-charcoal">
-        <div className="max-w-7xl mx-auto">
-          <div className="reveal mb-14 max-w-lg">
-            <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">What Is Included</p>
-            <h2 className="font-serif text-4xl sm:text-5xl text-off-white font-light">Every detail was a decision.</h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
-            {FEATURES.map((f, i) => (
-              <div key={i} className="bg-charcoal p-8 border border-white/5">
-                <div className="w-6 h-px bg-taupe mb-6" />
-                <h3 className="font-serif text-lg text-off-white mb-3 font-light">{f.title}</h3>
-                <p className="font-sans text-off-white/45 text-sm leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="reveal mt-12 text-center">
-            <a href="#contact" className="inline-block border border-champagne/50 text-champagne font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-champagne hover:text-charcoal transition-colors">
-              Join the Interest List
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FLOOR PLANS ── */}
+      {/* FLOOR PLANS */}
       <section id="floor-plans" className="py-20 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
           <div className="reveal mb-12 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Floor Plans</p>
-            <h2 className="font-serif text-4xl sm:text-5xl text-charcoal font-light">Two plans. One standard.</h2>
-            <p className="font-sans text-charcoal/50 mt-4 text-sm leading-relaxed">
+            <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Two plans. One standard.</h2>
+            <p className="font-sans text-brown/50 mt-4 text-sm leading-relaxed">
               The Addison adds a private office on the entry level. The Forge trades it for a third garage bay. Both deliver the same finish level, the same living floor, the same bedroom level.
             </p>
           </div>
@@ -665,8 +508,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── LOCATION ── */}
-      <section id="location" className="py-20 px-8 bg-charcoal">
+      {/* LOCATION */}
+      <section id="location" className="py-20 px-8 bg-brown">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="reveal">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Location</p>
@@ -690,61 +533,50 @@ export default function Home() {
               ))}
             </div>
           </div>
-
           <div className="reveal reveal-delay-1 overflow-hidden h-80 lg:h-[420px]">
             <iframe
               title="The Row Townhomes at 2534 location"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3043.4!2d-105.058!3d40.398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDIzJzUyLjgiTiAxMDXCsDAzJzI4LjgiVw!5e0!3m2!1sen!2sus!4v1234567890"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+              width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
         </div>
       </section>
 
-      {/* ── CONTACT ── */}
+      {/* CONTACT */}
       <section id="contact" className="py-20 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-start">
           <div className="reveal">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Private Tours</p>
-            <h2 className="font-serif text-4xl sm:text-5xl text-charcoal font-light mb-6">
+            <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light mb-6">
               Now leasing.<br />Tours by appointment.
             </h2>
-            <p className="font-sans text-charcoal/55 text-sm leading-relaxed mb-10 max-w-sm">
+            <p className="font-sans text-brown/55 text-sm leading-relaxed mb-10 max-w-sm">
               Units are available now. Submit your information and we will follow up directly with availability, pricing, and scheduling.
             </p>
-            <div className="space-y-5 border-t border-charcoal/10 pt-8">
+            <div className="space-y-5 border-t border-brown/10 pt-8">
               <div className="flex gap-6">
                 <span className="font-sans text-xs tracking-widest uppercase text-taupe w-20 flex-shrink-0 pt-0.5">Email</span>
-                <a href="mailto:hello@row2534.com" className="font-sans text-sm text-charcoal/60 hover:text-champagne transition-colors">
-                  hello@row2534.com
-                </a>
+                <a href="mailto:hello@row2534.com" className="font-sans text-sm text-brown/60 hover:text-champagne transition-colors">hello@row2534.com</a>
               </div>
               <div className="flex gap-6">
                 <span className="font-sans text-xs tracking-widest uppercase text-taupe w-20 flex-shrink-0 pt-0.5">Address</span>
-                <p className="font-sans text-sm text-charcoal/60">
-                  Exposition Drive &amp; Thompson Pkwy<br />Loveland, CO 80538
-                </p>
+                <p className="font-sans text-sm text-brown/60">Exposition Drive &amp; Thompson Pkwy<br />Loveland, CO 80538</p>
               </div>
             </div>
           </div>
-
-          <div className="reveal reveal-delay-1 bg-charcoal p-8">
+          <div className="reveal reveal-delay-1 bg-brown p-8">
             <ContactForm />
           </div>
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="bg-charcoal border-t border-white/5 py-10 px-8">
+      {/* FOOTER */}
+      <footer className="bg-brown border-t border-white/5 py-10 px-8">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8">
-              <Image src="/images/logo.jpg" alt="The Row at 2534" fill className="object-contain" sizes="32px" />
+            <div className="relative w-8 h-8 rounded-sm overflow-hidden bg-off-white">
+              <Image src="/images/logo.jpg" alt="The Row at 2534" fill className="object-contain p-0.5" sizes="32px" />
             </div>
             <div>
               <div className="font-serif text-sm text-off-white">The Row <span className="text-taupe font-light">at 2534</span></div>
@@ -753,14 +585,10 @@ export default function Home() {
           </div>
           <div className="flex flex-wrap gap-6 justify-center">
             {navLinks.map((l) => (
-              <a key={l.href} href={l.href} className="font-sans text-xs text-off-white/30 hover:text-off-white/60 transition-colors tracking-widest uppercase">
-                {l.label}
-              </a>
+              <a key={l.href} href={l.href} className="font-sans text-xs text-off-white/30 hover:text-off-white/60 transition-colors tracking-widest uppercase">{l.label}</a>
             ))}
           </div>
-          <div className="font-sans text-xs text-off-white/25">
-            &copy; {new Date().getFullYear()} The Row at 2534
-          </div>
+          <div className="font-sans text-xs text-off-white/25">&copy; {new Date().getFullYear()} The Row at 2534</div>
         </div>
       </footer>
 
