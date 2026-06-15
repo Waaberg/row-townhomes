@@ -432,7 +432,7 @@ export default function Home() {
       </section>
 
       {/* STATS */}
-      <section className="bg-brown py-10 px-8">
+      <section className="bg-brown py-8 px-8">
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
             { num: '32',     label: 'Residences' },
@@ -449,9 +449,9 @@ export default function Home() {
       </section>
 
       {/* FEATURES — now first */}
-      <section id="features" className="py-20 px-8 bg-off-white">
+      <section id="features" className="py-14 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
-          <div className="reveal mb-14 max-w-lg">
+          <div className="reveal mb-8 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">What Is Included</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Every detail was a decision.</h2>
           </div>
@@ -473,9 +473,9 @@ export default function Home() {
       </section>
 
       {/* PHOTOS — now after features */}
-      <section id="photos" className="py-20 px-8 bg-off-white">
+      <section id="photos" className="py-14 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
-          <div className="reveal mb-12 max-w-lg">
+          <div className="reveal mb-8 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Photos</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Inside the residence.</h2>
             <p className="font-sans text-brown/50 mt-4 text-sm leading-relaxed">
@@ -489,9 +489,9 @@ export default function Home() {
       </section>
 
       {/* FLOOR PLANS */}
-      <section id="floor-plans" className="py-20 px-8 bg-off-white">
+      <section id="floor-plans" className="py-14 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
-          <div className="reveal mb-12 max-w-lg">
+          <div className="reveal mb-8 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Floor Plans</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Two plans. One standard.</h2>
             <p className="font-sans text-brown/50 mt-4 text-sm leading-relaxed">
@@ -505,7 +505,7 @@ export default function Home() {
       </section>
 
       {/* LOCATION */}
-      <section id="location" className="py-20 px-8 bg-brown">
+      <section id="location" className="py-14 px-8 bg-brown">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="reveal">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Location</p>
@@ -540,7 +540,7 @@ export default function Home() {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-20 px-8 bg-off-white">
+      <section id="contact" className="py-14 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-start">
           <div className="reveal">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Private Tours</p>
