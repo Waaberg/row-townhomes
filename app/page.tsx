@@ -338,7 +338,7 @@ function FloorPlans() {
             <div className="font-sans text-xs tracking-widest uppercase text-taupe mb-2">Starting At</div>
             <div className="font-serif text-5xl text-brown font-light">$2,795<span className="text-xl text-taupe">/mo</span></div>
           </div>
-          <a href="#contact" className="inline-block border border-brown text-brown font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-brown hover:text-off-white transition-colors">
+          <a href="/schedule-a-tour.html" className="inline-block border border-brown text-brown font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-brown hover:text-off-white transition-colors">
             Request a Tour
           </a>
         </div>
@@ -358,7 +358,7 @@ export default function Home() {
     { href: '#photos',      label: 'Photos' },
     { href: '#floor-plans', label: 'Floor Plans' },
     { href: '#location',    label: 'Location' },
-    { href: '#contact',     label: 'Contact' },
+    { href: '/schedule-a-tour.html', label: 'Contact' },
   ]
 
   return (
@@ -380,7 +380,7 @@ export default function Home() {
             ))}
           </nav>
 
-          <a href="#contact" className="hidden md:block border border-champagne/60 text-champagne font-sans text-xs tracking-widest uppercase px-5 py-2.5 hover:bg-champagne hover:text-brown transition-colors">
+          <a href="/schedule-a-tour.html" className="hidden md:block border border-champagne/60 text-champagne font-sans text-xs tracking-widest uppercase px-5 py-2.5 hover:bg-champagne hover:text-brown transition-colors">
             Request a Tour
           </a>
 
@@ -396,7 +396,7 @@ export default function Home() {
             {navLinks.map((l) => (
               <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="font-sans text-xs text-off-white/60 tracking-widest uppercase hover:text-champagne transition-colors">{l.label}</a>
             ))}
-            <a href="#contact" onClick={() => setMenuOpen(false)} className="border border-champagne/60 text-champagne font-sans text-xs tracking-widest uppercase px-5 py-3 hover:bg-champagne hover:text-brown transition-colors text-center mt-2">
+            <a href="/schedule-a-tour.html" onClick={() => setMenuOpen(false)} className="border border-champagne/60 text-champagne font-sans text-xs tracking-widest uppercase px-5 py-3 hover:bg-champagne hover:text-brown transition-colors text-center mt-2">
               Request a Tour
             </a>
           </nav>
@@ -418,7 +418,7 @@ export default function Home() {
               32 residences at Exposition Drive and Thompson Parkway. Three bedrooms, private fenced yards, oversized garages. Starting at $2,795/mo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#contact" className="bg-champagne text-brown font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-off-white transition-colors font-medium text-center">
+              <a href="/schedule-a-tour.html" className="bg-champagne text-brown font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-off-white transition-colors font-medium text-center">
                 Request a Tour
               </a>
               <a href="#features" className="border border-off-white/40 text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:border-off-white hover:bg-white/10 transition-colors text-center">
@@ -463,7 +463,7 @@ export default function Home() {
             ))}
           </div>
           <div className="reveal mt-12 text-center">
-            <a href="#contact" className="inline-block bg-brown text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-brown-mid transition-colors">
+            <a href="/schedule-a-tour.html" className="inline-block bg-brown text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-brown-mid transition-colors">
               Schedule a Tour
             </a>
           </div>
