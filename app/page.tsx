@@ -12,7 +12,7 @@ const FEATURES = [
   { title: 'Primary Suite & Balcony',    desc: 'The primary bedroom opens to a private balcony. A floor dedicated to rest.' },
   { title: 'Community Spaces',           desc: 'Pergola, fire pit, BBQ area, and a dedicated dog park.' },
   { title: 'Three-Story Floor Plans',    desc: 'Living on the main floor. Bedrooms on their own level. A layout that separates work, life, and sleep.' },
-  { title: 'Considered Throughout',      desc: 'From the entry threshold to the primary bath — every material, every finish, every detail was a decision.' },
+  { title: 'Beautiful Details',          desc: 'From the entry threshold to the primary bath — every material and finish was carefully thought out.' },
 ]
 
 const PHOTOS = [
@@ -532,7 +532,7 @@ export default function Home() {
               <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.24em', textTransform: 'uppercase', color: '#C9A97A' }}>At 2534 · Now Leasing</span>
             </div>
             <h1 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300, fontSize: 'clamp(44px, 6.5vw, 88px)', lineHeight: 1.02, color: '#F5F2EC', letterSpacing: '-.02em', marginBottom: 28 }}>
-              Luxury Townhomes<br />for Lease in<br /><em style={{ fontStyle: 'italic', color: '#C9A97A' }}>At 2534.</em>
+              Luxury Townhomes<br />for Lease<br /><em style={{ fontStyle: 'italic', color: '#C9A97A' }}>At 2534.</em>
             </h1>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, color: 'rgba(245,242,236,.65)', lineHeight: 1.75, maxWidth: 480, marginBottom: 40 }}>
               32 residences at 5005 Exposition Drive. Three bedrooms, private fenced yards, oversized garages — designed without compromise.
