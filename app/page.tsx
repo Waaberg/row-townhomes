@@ -758,57 +758,224 @@ export default function Home() {
 
 /* ─── INLINE CONTACT FORM ───────────────────────────── */
 function ContactFormInline() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', unit: '', timeline: '', message: '' })
+  const [form, setForm] = useState({
+    firstName: '', lastName: '', email: '', phone: '',
+    tourDate: '', tourTime: '', tourType: 'In Person',
+    moveIn: '', currentCity: '', housing: '',
+    occupants: '', pets: '', petType: [] as string[], petCount: '',
+    floorPlan: '', garage: '', source: '', message: ''
+  })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [error, setError] = useState('')
 
-  const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm(p => ({ ...p, [e.target.name]: e.target.value }))
+  const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked
+      setForm(p => ({
+        ...p,
+        petType: checked ? [...p.petType, value] : p.petType.filter(v => v !== value)
+      }))
+    } else {
+      setForm(p => ({ ...p, [name]: value }))
+    }
+  }
 
   const submit = async (e: React.FormEvent) => {
-    e.preventDefault(); setStatus('sending'); setError('')
+    e.preventDefault()
+    setStatus('sending')
+    setError('')
     try {
-      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
+      const payload = {
+        name: `${form.firstName} ${form.lastName}`,
+        email: form.email,
+        phone: form.phone,
+        unit: form.floorPlan,
+        timeline: form.moveIn,
+        message: [
+          form.message,
+          `Tour Date: ${form.tourDate} at ${form.tourTime}`,
+          `Tour Type: ${form.tourType}`,
+          `Current City: ${form.currentCity}`,
+          `Housing: ${form.housing}`,
+          `Occupants: ${form.occupants}`,
+          `Pets: ${form.pets}${form.petType.length ? ` (${form.petType.join(', ')})` : ''}${form.petCount ? ` x${form.petCount}` : ''}`,
+          `Garage: ${form.garage}`,
+          `Heard Via: ${form.source}`,
+        ].filter(Boolean).join(' | ')
+      }
+      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       const data = await res.json()
       if (!res.ok) { setError(data.error || 'Something went wrong.'); setStatus('error'); return }
       setStatus('success')
-      setForm({ name: '', email: '', phone: '', unit: '', timeline: '', message: '' })
     } catch { setError('Network error. Please try again.'); setStatus('error') }
   }
 
+  const iS: React.CSSProperties = { width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,.15)', padding: '10px 0', color: '#F5F2EC', fontFamily: "'Inter', sans-serif", fontSize: 14, outline: 'none', transition: 'border-color .2s' }
+  const lS: React.CSSProperties = { fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', color: '#A89887', display: 'block', marginBottom: 8 }
+  const sL: React.CSSProperties = { fontFamily: "'Inter', sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '.22em', textTransform: 'uppercase', color: '#A89887', display: 'block', marginBottom: 20, paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,.08)' }
+  const focus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => (e.currentTarget.style.borderBottomColor = '#C9A97A')
+  const blur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,.15)')
+  const g2: React.CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 20px' }
+  const rS: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 10, fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(245,242,236,.7)', cursor: 'pointer' }
+
   if (status === 'success') return (
-    <div style={{ padding: '40px 0', textAlign: 'center' }}>
-      <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', color: '#A89887', marginBottom: 12 }}>Received</div>
-      <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, color: '#F5F2EC', fontWeight: 300, marginBottom: 12 }}>You are on the list.</div>
-      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(245,242,236,.5)', lineHeight: 1.7 }}>We'll be in touch with availability and next steps.</p>
+    <div style={{ padding: '48px 0', textAlign: 'center' }}>
+      <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', color: '#A89887', marginBottom: 16 }}>Request Received</div>
+      <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 30, color: '#F5F2EC', fontWeight: 300, marginBottom: 14 }}>Thank you.</div>
+      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(245,242,236,.5)', lineHeight: 1.7, maxWidth: 320, margin: '0 auto' }}>Your tour request is in. A member of the leasing team will confirm your appointment by email shortly.</p>
     </div>
   )
 
-  const inputStyle: React.CSSProperties = { width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,.12)', padding: '10px 0', color: '#F5F2EC', fontFamily: "'Inter', sans-serif", fontSize: 15, outline: 'none', transition: 'border-color .2s' }
-  const labelStyle: React.CSSProperties = { fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', color: '#A89887', display: 'block', marginBottom: 8 }
-
   return (
-    <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-        <div><label style={labelStyle}>Name</label><input name="name" value={form.name} onChange={handle} required placeholder="First & Last" style={inputStyle} onFocus={e => (e.currentTarget.style.borderBottomColor = '#C9A97A')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,.12)')} /></div>
-        <div><label style={labelStyle}>Email</label><input name="email" type="email" value={form.email} onChange={handle} required placeholder="you@email.com" style={inputStyle} onFocus={e => (e.currentTarget.style.borderBottomColor = '#C9A97A')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,.12)')} /></div>
-        <div><label style={labelStyle}>Phone</label><input name="phone" type="tel" value={form.phone} onChange={handle} placeholder="(970) 000-0000" style={inputStyle} onFocus={e => (e.currentTarget.style.borderBottomColor = '#C9A97A')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,.12)')} /></div>
-        <div><label style={labelStyle}>Floor Plan</label>
-          <select name="unit" value={form.unit} onChange={handle} style={{ ...inputStyle, cursor: 'pointer' }}>
-            <option value="">Select one</option>
-            <option value="The Addison — 2-Car Garage">The Addison — 2-Car Garage</option>
-            <option value="The Forge — 3-Car Garage">The Forge — 3-Car Garage</option>
-            <option value="Either / Flexible">Either / Flexible</option>
-          </select>
+    <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+
+      {/* Contact */}
+      <div>
+        <span style={sL}>Contact Information</span>
+        <div style={g2}>
+          <div><label style={lS}>First Name *</label><input name="firstName" value={form.firstName} onChange={handle} required onFocus={focus} onBlur={blur} style={iS} /></div>
+          <div><label style={lS}>Last Name *</label><input name="lastName" value={form.lastName} onChange={handle} required onFocus={focus} onBlur={blur} style={iS} /></div>
+          <div><label style={lS}>Email *</label><input name="email" type="email" value={form.email} onChange={handle} required onFocus={focus} onBlur={blur} style={iS} placeholder="you@email.com" /></div>
+          <div><label style={lS}>Mobile Phone *</label><input name="phone" type="tel" value={form.phone} onChange={handle} required onFocus={focus} onBlur={blur} style={iS} placeholder="(970) 000-0000" /></div>
         </div>
       </div>
-      <div><label style={labelStyle}>Message</label><textarea name="message" value={form.message} onChange={handle} rows={2} placeholder="Anything you'd like us to know." style={{ ...inputStyle, resize: 'none' }} onFocus={e => (e.currentTarget.style.borderBottomColor = '#C9A97A')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,.12)')} /></div>
+
+      {/* Tour Preferences */}
+      <div>
+        <span style={sL}>Tour Preferences</span>
+        <div style={{ ...g2, marginBottom: 20 }}>
+          <div><label style={lS}>Preferred Tour Date *</label><input name="tourDate" type="date" value={form.tourDate} onChange={handle} required onFocus={focus} onBlur={blur} style={{ ...iS, colorScheme: 'dark' }} /></div>
+          <div>
+            <label style={lS}>Preferred Tour Time *</label>
+            <select name="tourTime" value={form.tourTime} onChange={handle} required onFocus={focus} onBlur={blur} style={{ ...iS, cursor: 'pointer' }}>
+              <option value="" disabled>Select time</option>
+              {['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM'].map(t => <option key={t}>{t}</option>)}
+            </select>
+          </div>
+        </div>
+        <label style={lS}>Tour Type</label>
+        <div style={{ display: 'flex', gap: 24 }}>
+          {['In Person', 'Virtual Tour'].map(t => (
+            <label key={t} style={rS}>
+              <input type="radio" name="tourType" value={t} checked={form.tourType === t} onChange={handle} style={{ accentColor: '#C9A97A' }} />
+              {t}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Move-In */}
+      <div>
+        <span style={sL}>Move-In Information</span>
+        <div style={{ ...g2, marginBottom: 20 }}>
+          <div><label style={lS}>Desired Move-In Date *</label><input name="moveIn" type="date" value={form.moveIn} onChange={handle} required onFocus={focus} onBlur={blur} style={{ ...iS, colorScheme: 'dark' }} /></div>
+          <div><label style={lS}>Current City</label><input name="currentCity" value={form.currentCity} onChange={handle} onFocus={focus} onBlur={blur} style={iS} /></div>
+        </div>
+        <label style={lS}>Current Housing Situation</label>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 24px' }}>
+          {['Apartment', 'House Rental', 'Own Home', 'Relocating'].map(h => (
+            <label key={h} style={rS}>
+              <input type="radio" name="housing" value={h} checked={form.housing === h} onChange={handle} style={{ accentColor: '#C9A97A' }} />
+              {h}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Household */}
+      <div>
+        <span style={sL}>Household Information</span>
+        <div style={{ ...g2, marginBottom: form.pets === 'Yes' ? 20 : 0 }}>
+          <div><label style={lS}>Number of Occupants</label><input name="occupants" type="number" min="1" max="12" value={form.occupants} onChange={handle} onFocus={focus} onBlur={blur} style={iS} /></div>
+          <div>
+            <label style={lS}>Pets?</label>
+            <div style={{ display: 'flex', gap: 24, paddingTop: 10 }}>
+              {['Yes', 'No'].map(p => (
+                <label key={p} style={rS}>
+                  <input type="radio" name="pets" value={p} checked={form.pets === p} onChange={handle} style={{ accentColor: '#C9A97A' }} />
+                  {p}
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+        {form.pets === 'Yes' && (
+          <div style={g2}>
+            <div style={{ gridColumn: 'span 2' }}>
+              <label style={lS}>Pet Type</label>
+              <div style={{ display: 'flex', gap: 24 }}>
+                {['Dog', 'Cat', 'Other'].map(p => (
+                  <label key={p} style={rS}>
+                    <input type="checkbox" name="petType" value={p} checked={form.petType.includes(p)} onChange={handle} style={{ accentColor: '#C9A97A' }} />
+                    {p}
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div><label style={lS}>Number of Pets</label><input name="petCount" type="number" min="1" max="10" value={form.petCount} onChange={handle} onFocus={focus} onBlur={blur} style={iS} /></div>
+          </div>
+        )}
+      </div>
+
+      {/* Floor Plan */}
+      <div>
+        <span style={sL}>Floor Plan Interest</span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {[
+            { val: 'Addison', name: 'The Addison', sub: '3 Bed + Office · 4 Bath · 2-Car Garage' },
+            { val: 'Forge',   name: 'The Forge',   sub: '3 Bed · 3 Bath · 3-Car Garage' },
+            { val: 'Not Sure', name: 'Not Sure Yet', sub: 'Help me decide' },
+          ].map(p => (
+            <label key={p.val} style={{ ...rS, alignItems: 'flex-start' }}>
+              <input type="radio" name="floorPlan" value={p.val} checked={form.floorPlan === p.val} onChange={handle} style={{ accentColor: '#C9A97A', marginTop: 3 }} />
+              <span>
+                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, color: '#F5F2EC', display: 'block', lineHeight: 1.3 }}>{p.name}</span>
+                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: '#A89887', display: 'block' }}>{p.sub}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Garage */}
+      <div>
+        <span style={sL}>Garage Preference</span>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 24px' }}>
+          {['2-Car Garage', '3-Car Garage', 'No Preference'].map(g => (
+            <label key={g} style={rS}>
+              <input type="radio" name="garage" value={g} checked={form.garage === g} onChange={handle} style={{ accentColor: '#C9A97A' }} />
+              {g}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* How did you hear */}
+      <div>
+        <span style={sL}>How Did You Hear About Us?</span>
+        <select name="source" value={form.source} onChange={handle} onFocus={focus} onBlur={blur} style={{ ...iS, cursor: 'pointer' }}>
+          <option value="">Select one</option>
+          {['Zillow','Apartments.com','Google','Instagram','Facebook','Referral','Drive By','Realtor','Other'].map(s => <option key={s}>{s}</option>)}
+        </select>
+      </div>
+
+      {/* Message */}
+      <div>
+        <label style={lS}>Additional Notes</label>
+        <textarea name="message" value={form.message} onChange={handle} rows={3} placeholder="Anything you'd like us to know." onFocus={focus} onBlur={blur} style={{ ...iS, resize: 'none' }} />
+      </div>
+
       {error && <p style={{ color: '#e07070', fontSize: 13, fontFamily: "'Inter', sans-serif" }}>{error}</p>}
-      <button type="submit" disabled={status === 'sending'} style={{ background: '#C9A97A', color: '#1F1508', border: 'none', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '15px', cursor: status === 'sending' ? 'not-allowed' : 'pointer', opacity: status === 'sending' ? .6 : 1, fontWeight: 600, transition: 'background .2s' }}
-        onMouseEnter={e => { if (status !== 'sending') (e.currentTarget as HTMLButtonElement).style.background = '#F5F2EC'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#C9A97A'; }}
-      >{status === 'sending' ? 'Sending…' : 'Schedule a Tour'}</button>
-      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: 'rgba(245,242,236,.2)', textAlign: 'center', letterSpacing: '.04em' }}>Private tours by appointment only.</p>
+
+      <div>
+        <button type="submit" disabled={status === 'sending'} style={{ background: '#C9A97A', color: '#1F1508', border: 'none', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '16px 32px', cursor: status === 'sending' ? 'not-allowed' : 'pointer', opacity: status === 'sending' ? .6 : 1, fontWeight: 600, transition: 'background .2s', width: '100%' }}
+          onMouseEnter={e => { if (status !== 'sending') (e.currentTarget as HTMLButtonElement).style.background = '#F5F2EC' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#C9A97A' }}
+        >{status === 'sending' ? 'Sending…' : 'Request Tour'}</button>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: 'rgba(245,242,236,.2)', textAlign: 'center', letterSpacing: '.04em', marginTop: 12 }}>Private tours by appointment. We’ll confirm by email.</p>
+      </div>
+
     </form>
   )
 }
