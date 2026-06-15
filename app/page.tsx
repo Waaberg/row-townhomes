@@ -1,42 +1,18 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 /* ─── DATA ─────────────────────────────────────────── */
 const FEATURES = [
-  {
-    title: 'High-End Finishes',
-    desc: 'Quartz countertops. Luxury vinyl plank. Stainless appliances. Matte black hardware throughout.',
-  },
-  {
-    title: 'Private Fenced Yards',
-    desc: 'Each unit has its own enclosed outdoor space. Ground-level, fenced, yours.',
-  },
-  {
-    title: '2- & 3-Car Garages',
-    desc: 'Oversized attached garages. Built for trucks, gear, and everything that comes with living in Colorado.',
-  },
-  {
-    title: 'Tankless Hot Water',
-    desc: 'On-demand. No tank, no wait, no running out.',
-  },
-  {
-    title: 'Primary Suite with Balcony',
-    desc: 'The primary bedroom opens to a private balcony. A floor dedicated to rest.',
-  },
-  {
-    title: 'Community Spaces',
-    desc: 'Pergola, fire pit, BBQ area, and a dedicated dog park. Shared amenities without the apartment-complex feel.',
-  },
-  {
-    title: 'Three-Story Floor Plans',
-    desc: 'Living on the main floor. Bedrooms on their own level. A layout that separates work, life, and sleep.',
-  },
-  {
-    title: 'Considered Throughout',
-    desc: 'From the entry threshold to the primary bath — every material, every finish, every detail was a decision.',
-  },
+  { title: 'High-End Finishes',         desc: 'Quartz countertops. Luxury vinyl plank. Stainless appliances. Matte black hardware throughout.' },
+  { title: 'Private Fenced Yards',      desc: 'Each unit has its own enclosed outdoor space. Ground-level, fenced, yours.' },
+  { title: '2- & 3-Car Garages',        desc: 'Oversized attached garages. Built for trucks, gear, and everything that comes with living in Colorado.' },
+  { title: 'Tankless Hot Water',        desc: 'On-demand. No tank, no wait, no running out.' },
+  { title: 'Primary Suite with Balcony',desc: 'The primary bedroom opens to a private balcony. A floor dedicated to rest.' },
+  { title: 'Community Spaces',          desc: 'Pergola, fire pit, BBQ area, and a dedicated dog park. Shared amenities without the apartment-complex feel.' },
+  { title: 'Three-Story Floor Plans',   desc: 'Living on the main floor. Bedrooms on their own level. A layout that separates work, life, and sleep.' },
+  { title: 'Considered Throughout',     desc: 'From the entry threshold to the primary bath — every material, every finish, every detail was a decision.' },
 ]
 
 const PHOTOS = [
@@ -61,9 +37,7 @@ const FLOOR_PLANS = [
   {
     name: 'The Addison',
     tag: '3 Bed + Office · 4 Bath · 2-Car Garage',
-    beds: '3 + Office',
-    baths: '4',
-    garage: '2-Car',
+    beds: '3 + Office', baths: '4', garage: '2-Car',
     desc: 'Three bedrooms, a private office or den on the entry level, four baths arranged across three floors. The 2-car garage enters directly into the home. A covered patio off the living level.',
     details: [
       'Private office / den on entry level',
@@ -82,9 +56,7 @@ const FLOOR_PLANS = [
   {
     name: 'The Forge',
     tag: '3 Bed · 3 Bath · 3-Car Garage',
-    beds: '3',
-    baths: '3',
-    garage: '3-Car',
+    beds: '3', baths: '3', garage: '3-Car',
     desc: "Three bedrooms, three baths, and an oversized 3-car garage. Built for the household that needs room — for vehicles, equipment, or the kind of life that doesn't fit in a standard two-car.",
     details: [
       'Oversized 3-car attached garage',
@@ -212,62 +184,127 @@ function ContactForm() {
   )
 }
 
-/* ─── GALLERY ───────────────────────────────────────── */
-function Gallery() {
+/* ─── PHOTO CAROUSEL ────────────────────────────────── */
+function PhotoCarousel() {
+  const [current, setCurrent] = useState(0)
   const [lightbox, setLightbox] = useState<number | null>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+
+  const prev = () => setCurrent((c) => (c - 1 + PHOTOS.length) % PHOTOS.length)
+  const next = () => setCurrent((c) => (c + 1) % PHOTOS.length)
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (lightbox === null) return
-      if (e.key === 'Escape') setLightbox(null)
-      if (e.key === 'ArrowRight') setLightbox((p) => (p! + 1) % PHOTOS.length)
-      if (e.key === 'ArrowLeft') setLightbox((p) => (p! - 1 + PHOTOS.length) % PHOTOS.length)
+      if (lightbox !== null) {
+        if (e.key === 'Escape') setLightbox(null)
+        if (e.key === 'ArrowRight') setLightbox((p) => (p! + 1) % PHOTOS.length)
+        if (e.key === 'ArrowLeft') setLightbox((p) => (p! - 1 + PHOTOS.length) % PHOTOS.length)
+      } else {
+        if (e.key === 'ArrowRight') next()
+        if (e.key === 'ArrowLeft') prev()
+      }
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
   }, [lightbox])
 
+  // Show 3 photos at a time on desktop, 1 on mobile
+  const visible = 3
+  const getVisiblePhotos = () => {
+    const result = []
+    for (let i = 0; i < visible; i++) {
+      result.push(PHOTOS[(current + i) % PHOTOS.length])
+    }
+    return result
+  }
+
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1">
-        {PHOTOS.map((p, i) => (
+      {/* Main carousel */}
+      <div className="relative">
+        {/* Desktop: 3-up */}
+        <div className="hidden md:grid grid-cols-3 gap-3">
+          {getVisiblePhotos().map((p, i) => (
+            <button
+              key={`${current}-${i}`}
+              onClick={() => setLightbox((current + i) % PHOTOS.length)}
+              className={`relative overflow-hidden focus:outline-none group ${i === 1 ? 'aspect-[4/3]' : 'aspect-[4/3]'}`}
+            >
+              <Image
+                src={p.src}
+                alt={p.label}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                sizes="33vw"
+              />
+              <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-300 flex items-end p-4">
+                <span className="text-off-white text-xs font-sans tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                  {p.label}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile: single photo */}
+        <div className="md:hidden relative aspect-[4/3]">
+          <Image
+            src={PHOTOS[current].src}
+            alt={PHOTOS[current].label}
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+
+        {/* Nav arrows */}
+        <button
+          onClick={prev}
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-charcoal/70 hover:bg-charcoal text-off-white flex items-center justify-center transition-colors z-10 text-xl"
+          aria-label="Previous"
+        >&#8249;</button>
+        <button
+          onClick={next}
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-charcoal/70 hover:bg-charcoal text-off-white flex items-center justify-center transition-colors z-10 text-xl"
+          aria-label="Next"
+        >&#8250;</button>
+      </div>
+
+      {/* Dots */}
+      <div className="flex justify-center gap-2 mt-6">
+        {PHOTOS.map((_, i) => (
           <button
             key={i}
-            onClick={() => setLightbox(i)}
-            className="group relative aspect-square overflow-hidden focus:outline-none focus:ring-1 focus:ring-champagne"
-            aria-label={`View ${p.label}`}
-          >
-            <Image
-              src={p.src}
-              alt={p.label}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            />
-            <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/25 transition-colors duration-300 flex items-end p-3">
-              <span className="text-off-white text-xs font-sans tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {p.label}
-              </span>
-            </div>
-          </button>
+            onClick={() => setCurrent(i)}
+            className={`w-1.5 h-1.5 rounded-full transition-colors ${i === current ? 'bg-champagne' : 'bg-charcoal/20'}`}
+            aria-label={`Go to photo ${i + 1}`}
+          />
         ))}
       </div>
 
+      {/* Counter */}
+      <div className="text-center mt-3">
+        <span className="font-sans text-xs text-taupe tracking-widest uppercase">
+          {current + 1} / {PHOTOS.length}
+        </span>
+      </div>
+
+      {/* Lightbox */}
       {lightbox !== null && (
         <div
           className="fixed inset-0 bg-charcoal/97 z-50 flex items-center justify-center p-4"
           onClick={() => setLightbox(null)}
         >
           <button
-            className="absolute top-5 right-5 text-off-white/50 hover:text-off-white text-3xl font-light z-10"
+            className="absolute top-5 right-5 text-off-white/50 hover:text-off-white text-3xl z-10"
             onClick={() => setLightbox(null)}
             aria-label="Close"
-          >x</button>
+          >&#x2715;</button>
           <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl font-thin z-10 px-2"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2"
             onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! - 1 + PHOTOS.length) % PHOTOS.length) }}
             aria-label="Previous"
-          >&lsaquo;</button>
+          >&#8249;</button>
           <div
             className="relative max-w-4xl w-full max-h-[85vh] aspect-[4/3]"
             onClick={(e) => e.stopPropagation()}
@@ -282,13 +319,96 @@ function Gallery() {
             />
           </div>
           <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl font-thin z-10 px-2"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2"
             onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! + 1) % PHOTOS.length) }}
             aria-label="Next"
-          >&rsaquo;</button>
+          >&#8250;</button>
           <div className="absolute bottom-5 left-0 right-0 text-center">
             <span className="text-off-white/40 font-sans text-xs tracking-widest uppercase">
               {PHOTOS[lightbox].label} &middot; {lightbox + 1} / {PHOTOS.length}
+            </span>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+/* ─── FLOOR PLAN IMAGES ─────────────────────────────── */
+function FloorPlanImages({ floors }: { floors: { label: string; img: string }[] }) {
+  const [lightbox, setLightbox] = useState<number | null>(null)
+
+  // Check if real images exist (not placeholder paths)
+  const hasImages = floors.some(f => !f.img.includes('placeholder'))
+
+  return (
+    <>
+      <div className="grid grid-cols-3 gap-3">
+        {floors.map((f, i) => (
+          <div key={i} className="text-center">
+            <button
+              onClick={() => setLightbox(i)}
+              className="w-full relative aspect-[3/4] bg-soft-gray/30 border border-soft-gray overflow-hidden group focus:outline-none focus:ring-1 focus:ring-champagne block"
+              aria-label={`View ${f.label}`}
+            >
+              <Image
+                src={f.img}
+                alt={f.label}
+                fill
+                className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
+                sizes="(max-width: 768px) 33vw, 20vw"
+                onError={(e) => {
+                  // Hide if image doesn't exist
+                  (e.target as HTMLImageElement).style.display = 'none'
+                }}
+              />
+              <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/10 transition-colors duration-300 flex items-center justify-center">
+                <span className="text-charcoal/0 group-hover:text-charcoal/50 font-sans text-xs tracking-widest uppercase transition-colors duration-300">
+                  Expand
+                </span>
+              </div>
+            </button>
+            <span className="font-sans text-xs text-taupe tracking-widest uppercase mt-2 block">{f.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {lightbox !== null && (
+        <div
+          className="fixed inset-0 bg-charcoal/97 z-50 flex items-center justify-center p-4"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            className="absolute top-5 right-5 text-off-white/50 hover:text-off-white text-3xl z-10"
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+          >&#x2715;</button>
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2"
+            onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! - 1 + floors.length) % floors.length) }}
+            aria-label="Previous"
+          >&#8249;</button>
+          <div
+            className="relative w-full max-w-lg max-h-[85vh] aspect-[3/4] bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={floors[lightbox].img}
+              alt={floors[lightbox].label}
+              fill
+              className="object-contain p-4"
+              sizes="90vw"
+              priority
+            />
+          </div>
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-off-white/40 hover:text-off-white text-5xl z-10 px-2"
+            onClick={(e) => { e.stopPropagation(); setLightbox((p) => (p! + 1) % floors.length) }}
+            aria-label="Next"
+          >&#8250;</button>
+          <div className="absolute bottom-5 left-0 right-0 text-center">
+            <span className="text-off-white/40 font-sans text-xs tracking-widest uppercase">
+              {floors[lightbox].label}
             </span>
           </div>
         </div>
@@ -310,9 +430,7 @@ function FloorPlans() {
             key={i}
             onClick={() => setActive(i)}
             className={`px-8 py-4 font-serif text-xl transition-all duration-200 border-b-2 -mb-px focus:outline-none ${
-              active === i
-                ? 'text-charcoal border-charcoal'
-                : 'text-charcoal/30 border-transparent hover:text-charcoal/60'
+              active === i ? 'text-charcoal border-charcoal' : 'text-charcoal/30 border-transparent hover:text-charcoal/60'
             }`}
           >
             {p.name}
@@ -337,11 +455,11 @@ function FloorPlans() {
             ))}
           </div>
 
-          <p className="font-sans text-deep-slate text-sm leading-relaxed mb-8">{plan.desc}</p>
+          <p className="font-sans text-charcoal/70 text-sm leading-relaxed mb-8">{plan.desc}</p>
 
           <ul className="space-y-3 mb-10">
             {plan.details.map((d, i) => (
-              <li key={i} className="flex items-start gap-3 font-sans text-sm text-deep-slate">
+              <li key={i} className="flex items-start gap-3 font-sans text-sm text-charcoal/70">
                 <span className="w-px h-4 bg-taupe flex-shrink-0 mt-0.5" />
                 {d}
               </li>
@@ -361,18 +479,7 @@ function FloorPlans() {
           </a>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          {plan.floors.map((f, i) => (
-            <div key={i} className="text-center">
-              <div className="bg-soft-gray/40 border border-soft-gray aspect-[3/4] flex items-center justify-center mb-3">
-                <span className="font-sans text-xs text-taupe/50 text-center leading-relaxed px-2">
-                  Floor plan<br />coming soon
-                </span>
-              </div>
-              <span className="font-sans text-xs text-taupe tracking-widest uppercase">{f.label}</span>
-            </div>
-          ))}
-        </div>
+        <FloorPlanImages floors={plan.floors} />
       </div>
     </div>
   )
@@ -394,11 +501,19 @@ export default function Home() {
   return (
     <div className="bg-off-white min-h-screen">
 
-      {/* NAV */}
+      {/* ── NAV ── */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-charcoal border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-8 flex items-center justify-between h-16">
-          <a href="#" className="font-serif text-lg text-off-white tracking-wide">
-            The Row <span className="text-taupe font-light">at 2534</span>
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+
+          {/* Logo */}
+          <a href="#" className="flex items-center">
+            <div className="relative w-10 h-10">
+              <Image src="/images/logo.jpg" alt="The Row Townhomes at 2534" fill className="object-contain" sizes="40px" />
+            </div>
+            <div className="ml-3 hidden sm:block">
+              <div className="font-serif text-sm text-off-white leading-tight">The Row</div>
+              <div className="font-sans text-xs text-taupe tracking-widest uppercase leading-tight">at 2534</div>
+            </div>
           </a>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -438,7 +553,7 @@ export default function Home() {
         )}
       </header>
 
-      {/* HERO */}
+      {/* ── HERO ── */}
       <section className="relative h-screen min-h-[640px] flex items-end">
         <div className="absolute inset-0">
           <Image
@@ -475,7 +590,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* STATS */}
+      {/* ── STATS ── */}
       <section className="bg-charcoal py-10 px-8">
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
@@ -492,21 +607,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PHOTOS */}
+      {/* ── PHOTOS ── */}
       <section id="photos" className="py-20 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
           <div className="reveal mb-12 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">The Addison &middot; Model Unit</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-charcoal font-light">Inside the residence.</h2>
-            <p className="font-sans text-deep-slate/60 mt-4 text-sm leading-relaxed">White oak floors. Honed stone. A layout organized around light and separation of space. Select any photo to view full screen.</p>
+            <p className="font-sans text-charcoal/50 mt-4 text-sm leading-relaxed">
+              White oak floors. Honed stone. A layout organized around light and separation of space. Use the arrows to browse — click any photo to view full screen.
+            </p>
           </div>
           <div className="reveal reveal-delay-1">
-            <Gallery />
+            <PhotoCarousel />
           </div>
         </div>
       </section>
 
-      {/* FEATURES */}
+      {/* ── FEATURES ── */}
       <section id="features" className="py-20 px-8 bg-charcoal">
         <div className="max-w-7xl mx-auto">
           <div className="reveal mb-14 max-w-lg">
@@ -516,37 +633,29 @@ export default function Home() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
             {FEATURES.map((f, i) => (
-              <div
-                key={i}
-                className={`reveal reveal-delay-${(i % 4) + 1} bg-charcoal p-8 hover:bg-deep-slate transition-colors duration-300 group`}
-              >
+              <div key={i} className="bg-charcoal p-8 border border-white/5">
                 <div className="w-6 h-px bg-taupe mb-6" />
-                <h3 className="font-serif text-lg text-off-white mb-3 font-light group-hover:text-champagne transition-colors duration-300">
-                  {f.title}
-                </h3>
+                <h3 className="font-serif text-lg text-off-white mb-3 font-light">{f.title}</h3>
                 <p className="font-sans text-off-white/45 text-sm leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
 
           <div className="reveal mt-12 text-center">
-            <a
-              href="#contact"
-              className="inline-block border border-taupe/40 text-taupe font-sans text-xs tracking-widest uppercase px-8 py-4 hover:border-champagne hover:text-champagne transition-colors"
-            >
-              Request a Tour
+            <a href="#contact" className="inline-block border border-champagne/50 text-champagne font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-champagne hover:text-charcoal transition-colors">
+              Join the Interest List
             </a>
           </div>
         </div>
       </section>
 
-      {/* FLOOR PLANS */}
+      {/* ── FLOOR PLANS ── */}
       <section id="floor-plans" className="py-20 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto">
           <div className="reveal mb-12 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Floor Plans</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-charcoal font-light">Two plans. One standard.</h2>
-            <p className="font-sans text-deep-slate/60 mt-4 text-sm leading-relaxed">
+            <p className="font-sans text-charcoal/50 mt-4 text-sm leading-relaxed">
               The Addison adds a private office on the entry level. The Forge trades it for a third garage bay. Both deliver the same finish level, the same living floor, the same bedroom level.
             </p>
           </div>
@@ -556,7 +665,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* LOCATION */}
+      {/* ── LOCATION ── */}
       <section id="location" className="py-20 px-8 bg-charcoal">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="reveal">
@@ -597,49 +706,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="py-20 px-8 bg-charcoal">
+      {/* ── CONTACT ── */}
+      <section id="contact" className="py-20 px-8 bg-off-white">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-start">
           <div className="reveal">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Private Tours</p>
-            <h2 className="font-serif text-4xl sm:text-5xl text-off-white font-light mb-6">
+            <h2 className="font-serif text-4xl sm:text-5xl text-charcoal font-light mb-6">
               Now leasing.<br />Tours by appointment.
             </h2>
-            <p className="font-sans text-off-white/55 text-sm leading-relaxed mb-10 max-w-sm">
+            <p className="font-sans text-charcoal/55 text-sm leading-relaxed mb-10 max-w-sm">
               Units are available now. Submit your information and we will follow up directly with availability, pricing, and scheduling.
             </p>
-            <div className="space-y-5 border-t border-white/10 pt-8">
+            <div className="space-y-5 border-t border-charcoal/10 pt-8">
               <div className="flex gap-6">
                 <span className="font-sans text-xs tracking-widest uppercase text-taupe w-20 flex-shrink-0 pt-0.5">Email</span>
-                <a href="mailto:hello@row2534.com" className="font-sans text-sm text-off-white/60 hover:text-champagne transition-colors">
+                <a href="mailto:hello@row2534.com" className="font-sans text-sm text-charcoal/60 hover:text-champagne transition-colors">
                   hello@row2534.com
                 </a>
               </div>
               <div className="flex gap-6">
                 <span className="font-sans text-xs tracking-widest uppercase text-taupe w-20 flex-shrink-0 pt-0.5">Address</span>
-                <p className="font-sans text-sm text-off-white/60">
+                <p className="font-sans text-sm text-charcoal/60">
                   Exposition Drive &amp; Thompson Pkwy<br />Loveland, CO 80538
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="reveal reveal-delay-1 bg-charcoal/60 border border-white/5 p-8">
+          <div className="reveal reveal-delay-1 bg-charcoal p-8">
             <ContactForm />
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* ── FOOTER ── */}
       <footer className="bg-charcoal border-t border-white/5 py-10 px-8">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <div className="font-serif text-base text-off-white">
-              The Row <span className="text-taupe font-light">at 2534</span>
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <div className="relative w-8 h-8">
+              <Image src="/images/logo.jpg" alt="The Row at 2534" fill className="object-contain" sizes="32px" />
             </div>
-            <div className="font-sans text-xs text-off-white/30 mt-1">Exposition Drive, Loveland, CO 80538</div>
+            <div>
+              <div className="font-serif text-sm text-off-white">The Row <span className="text-taupe font-light">at 2534</span></div>
+              <div className="font-sans text-xs text-off-white/30">Loveland, CO 80538</div>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-6">
+          <div className="flex flex-wrap gap-6 justify-center">
             {navLinks.map((l) => (
               <a key={l.href} href={l.href} className="font-sans text-xs text-off-white/30 hover:text-off-white/60 transition-colors tracking-widest uppercase">
                 {l.label}
