@@ -389,8 +389,7 @@ function FloorPlans() {
         {(['addison', 'forge'] as const).map((p) => (
           <button key={p} onClick={() => setActive(p)} style={{
             padding: '14px 36px', fontFamily: "'Playfair Display', serif", fontSize: 20,
-            cursor: 'pointer', borderBottom: `2px solid ${active === p ? '#1F1508' : 'transparent'}`,
-            marginBottom: -1, color: active === p ? '#1F1508' : 'rgba(31,21,8,.3)',
+            cursor: 'pointer', marginBottom: -1, color: active === p ? '#1F1508' : 'rgba(31,21,8,.3)',
             background: 'none', border: 'none', borderBottom: `2px solid ${active === p ? '#1F1508' : 'transparent'}`,
             transition: 'all .2s',
           }}>{PLANS[p].name}</button>
