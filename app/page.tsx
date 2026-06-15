@@ -520,7 +520,7 @@ export default function Home() {
           .section-inner { padding: 0 20px !important; }
 
           /* FEATURES — 2 col */
-          .features-grid { grid-template-columns: 1fr 1fr !important; }
+          .features-grid { grid-template-columns: 1fr !important; gap: 1px !important; }
 
           /* PHOTO STRIP */
           .photo-strip { padding: 0 16px !important; }
@@ -616,7 +616,7 @@ export default function Home() {
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(34px, 4vw, 52px)', fontWeight: 300, color: '#1F1508', marginBottom: 12, lineHeight: 1.1 }}>Features That Define<br />Modern Living.</h2>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, color: '#2C3138', lineHeight: 1.7, maxWidth: 500, opacity: .65, marginBottom: 52 }}>Every surface considered. Every material selected. The baseline here is what others call an upgrade.</p>
           </div>
-          <div className="reveal reveal-d1" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, background: '#D9D5CF' }}>
+          <div className="reveal reveal-d1 features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, background: '#D9D5CF' }}>
             {FEATURES.map((f, i) => (
               <div key={i} style={{ background: '#F5F2EC', padding: '32px 26px', transition: 'background .3s, transform .25s', cursor: 'default' }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.background = '#1F1508'; el.style.transform = 'translateY(-2px)'; el.querySelectorAll('[data-title]').forEach(t => (t as HTMLElement).style.color = '#F5F2EC'); el.querySelectorAll('[data-desc]').forEach(t => (t as HTMLElement).style.color = 'rgba(245,242,236,.5)'); el.querySelectorAll('[data-rule]').forEach(t => (t as HTMLElement).style.background = '#C9A97A'); el.querySelectorAll('[data-rule]').forEach(t => (t as HTMLElement).style.width = '36px'); }}
