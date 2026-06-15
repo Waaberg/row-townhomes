@@ -415,7 +415,7 @@ export default function Home() {
               Luxury Townhomes<br />for Lease in<br />Johnstown, CO.
             </h1>
             <p className="font-sans text-off-white/75 text-base leading-relaxed mb-10 max-w-lg">
-              32 residences at Exposition Drive and Thompson Parkway. Three bedrooms, private fenced yards, oversized garages. Starting at $2,795/mo.
+              32 residences at 5005 Exposition Drive, Johnstown, CO. Three bedrooms, private fenced yards, oversized garages. Starting at $2,795/mo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="/schedule-a-tour.html" className="bg-champagne text-brown font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-off-white transition-colors font-medium text-center">
@@ -508,14 +508,14 @@ export default function Home() {
           <div className="reveal">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">Location</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-off-white font-light mb-6">
-              Exposition Drive &amp;<br />Thompson Parkway.
+              5005 Exposition Dr,<br />Johnstown, CO.
             </h2>
             <p className="font-sans text-off-white/55 text-sm leading-relaxed mb-10">
               Positioned at the Johnstown-Windsor border. Twenty minutes to Fort Collins. Quick access to I-25. Close enough to everything — far enough from the noise.
             </p>
             <div className="space-y-4 border-t border-white/10 pt-8">
               {[
-                ['Address',      'Exposition Drive & Thompson Pkwy, Johnstown, CO 80534'],
+                ['Address',      '5005 Exposition Dr, Johnstown, CO 80534'],
                 ['Fort Collins', '~20 min north via I-25'],
                 ['Greeley',      '~30 min east'],
                 ['Denver',       '~1 hr south'],
@@ -530,7 +530,7 @@ export default function Home() {
           <div className="reveal reveal-delay-1 overflow-hidden h-80 lg:h-[420px]">
             <iframe
               title="The Row Townhomes at 2534 location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3043.4!2d-105.058!3d40.398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDIzJzUyLjgiTiAxMDXCsDAzJzI4LjgiVw!5e0!3m2!1sen!2sus!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3044.2!2d-104.9089!3d40.3368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876ea2b3e1234567%3A0x0!2s5005+Exposition+Dr%2C+Johnstown%2C+CO+80534!5e0!3m2!1sen!2sus!4v1718000000000"
               width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
@@ -555,7 +555,7 @@ export default function Home() {
               </div>
               <div className="flex gap-6">
                 <span className="font-sans text-xs tracking-widest uppercase text-taupe w-20 flex-shrink-0 pt-0.5">Address</span>
-                <p className="font-sans text-sm text-brown/60">Exposition Drive &amp; Thompson Pkwy<br />Johnstown, CO 80534</p>
+                <p className="font-sans text-sm text-brown/60">5005 Exposition Dr<br />Johnstown, CO 80534</p>
               </div>
             </div>
           </div>
