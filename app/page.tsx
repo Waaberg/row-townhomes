@@ -517,7 +517,7 @@ export default function Home() {
       {/* ── HERO ── */}
       <section style={{ height: '88vh', minHeight: 600, position: 'relative', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0 }}>
-          <Image src="/images/exterior-street.jpg" alt="The Row Townhomes" fill className="object-cover" priority sizes="100vw" />
+          <Image src="/images/exterior-street-2.jpg" alt="The Row Townhomes" fill className="object-cover" priority sizes="100vw" />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(31,21,8,.55) 0%, rgba(31,21,8,.5) 50%, rgba(31,21,8,.75) 100%)' }} />
         </div>
         {/* Architectural line overlay */}
