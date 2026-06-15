@@ -290,9 +290,11 @@ function SiteMap() {
       { name: 'Building 4', units: ['5077','5073','5069','5065','5061','5057'] },
       { name: 'Building 5', units: ['5049','5045','5041'] },
       { name: 'Building 6', units: ['5037','5033','5029','5025'] },
-      { name: 'Building 7', units: ['5021','5017','5013','5009','5005','5001'] },
+      { name: 'Building 7', units: ['5021','5017','5013','5009','5005'] },
     ]},
   ]
+
+  const LEASED = new Set(['5077'])
 
   const plan = selUnit ? PLANS[pType(selUnit)] : null
 
@@ -337,10 +339,12 @@ function SiteMap() {
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, padding: '10px 12px 14px', background: '#1F1508' }}>
                     {b.units.map(u => {
                       const sel = selUnit === u
+                      const leased = LEASED.has(u)
                       return (
-                        <div key={u} style={{ width: 60, height: 54, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: sel ? '1.5px solid #C9A97A' : '1.5px solid rgba(255,255,255,.12)', cursor: 'pointer', transition: 'all .15s', gap: 2, background: sel ? '#C9A97A' : 'transparent' }} onClick={() => handleUnit(u)}>
-                          <div style={{ fontSize: 11, fontWeight: 600, color: sel ? '#1F1508' : '#F5F2EC' }}>{u}</div>
-                          <div style={{ fontSize: 7, letterSpacing: '.06em', textTransform: 'uppercase', color: sel ? 'rgba(31,21,8,.55)' : 'rgba(245,242,236,.35)' }}>{pType(u) === 'addison' ? 'Addison' : 'Forge'}</div>
+                        <div key={u} onClick={() => !leased && handleUnit(u)} style={{ width: 60, height: 54, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: leased ? '1.5px solid rgba(255,255,255,.06)' : sel ? '1.5px solid #C9A97A' : '1.5px solid rgba(255,255,255,.12)', cursor: leased ? 'default' : 'pointer', transition: 'all .15s', gap: 1, background: leased ? 'rgba(255,255,255,.04)' : sel ? '#C9A97A' : 'transparent', position: 'relative' }}>
+                          <div style={{ fontSize: 11, fontWeight: 600, color: leased ? 'rgba(245,242,236,.2)' : sel ? '#1F1508' : '#F5F2EC' }}>{u}</div>
+                          <div style={{ fontSize: 7, letterSpacing: '.06em', textTransform: 'uppercase', color: leased ? 'rgba(245,242,236,.15)' : sel ? 'rgba(31,21,8,.55)' : 'rgba(245,242,236,.35)' }}>{pType(u) === 'addison' ? 'Addison' : 'Forge'}</div>
+                          {leased && <div style={{ fontSize: 6, letterSpacing: '.08em', textTransform: 'uppercase', color: '#A89887', marginTop: 1 }}>Leased</div>}
                         </div>
                       )
                     })}
