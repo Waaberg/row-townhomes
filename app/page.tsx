@@ -175,7 +175,7 @@ function Nav({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (v: bo
           ))}
         </nav>
 
-        <a href="/schedule-a-tour.html" className="hide-mobile" style={{
+        <a href="#contact" className="hide-mobile" style={{
           border: '1px solid rgba(201,169,122,.5)', color: '#C9A97A',
           fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase',
           padding: '10px 22px', textDecoration: 'none', transition: 'all .2s',
@@ -196,7 +196,7 @@ function Nav({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (v: bo
           {links.map(l => (
             <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(245,242,236,.6)', textDecoration: 'none' }}>{l.label}</a>
           ))}
-          <a href="/schedule-a-tour.html" style={{ border: '1px solid rgba(201,169,122,.5)', color: '#C9A97A', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '12px', textDecoration: 'none', textAlign: 'center' }}>Schedule a Tour</a>
+          <a href="#contact" style={{ border: '1px solid rgba(201,169,122,.5)', color: '#C9A97A', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '12px', textDecoration: 'none', textAlign: 'center' }}>Schedule a Tour</a>
         </div>
       )}
     </header>
@@ -437,7 +437,7 @@ function FloorPlans() {
             <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', color: '#A89887', marginBottom: 6 }}>Starting At</div>
             <div className="floor-price" style={{ fontFamily: "'Playfair Display', serif", fontSize: 48, color: '#1F1508', fontWeight: 300 }}>$2,795<span style={{ fontSize: 18, color: '#A89887' }}>/mo</span></div>
           </div>
-          <a href="/schedule-a-tour.html" style={{ display: 'inline-block', border: '1px solid #1F1508', color: '#1F1508', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '14px 32px', textDecoration: 'none', transition: 'all .2s' }}
+          <a href="#contact" style={{ display: 'inline-block', border: '1px solid #1F1508', color: '#1F1508', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '14px 32px', textDecoration: 'none', transition: 'all .2s' }}
             onMouseEnter={e => { e.currentTarget.style.background = '#1F1508'; e.currentTarget.style.color = '#F5F2EC'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#1F1508'; }}
           >Request a Tour</a>
@@ -580,7 +580,7 @@ export default function Home() {
               32 residences at 5005 Exposition Drive. Three bedrooms, private fenced yards, oversized garages — designed without compromise.
             </p>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <a href="/schedule-a-tour.html" style={{ background: '#C9A97A', color: '#1F1508', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '16px 36px', textDecoration: 'none', fontWeight: 600, transition: 'background .2s' }}
+              <a href="#contact" style={{ background: '#C9A97A', color: '#1F1508', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '16px 36px', textDecoration: 'none', fontWeight: 600, transition: 'background .2s' }}
                 onMouseEnter={e => (e.currentTarget.style.background = '#F5F2EC')}
                 onMouseLeave={e => (e.currentTarget.style.background = '#C9A97A')}
               >Schedule a Tour</a>
@@ -633,7 +633,7 @@ export default function Home() {
             ))}
           </div>
           <div className="reveal" style={{ marginTop: 40, textAlign: 'center' }}>
-            <a href="/schedule-a-tour.html" style={{ display: 'inline-block', background: '#1F1508', color: '#F5F2EC', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '15px 36px', textDecoration: 'none', transition: 'background .2s' }}
+            <a href="#contact" style={{ display: 'inline-block', background: '#1F1508', color: '#F5F2EC', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '15px 36px', textDecoration: 'none', transition: 'background .2s' }}
               onMouseEnter={e => (e.currentTarget.style.background = '#2C3138')}
               onMouseLeave={e => (e.currentTarget.style.background = '#1F1508')}
             >Schedule a Tour</a>
@@ -743,7 +743,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              <a href="#contact-form" style={{ display: 'block', textAlign: 'center', background: '#C9A97A', color: '#1F1508', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '18px', textDecoration: 'none', fontWeight: 600, transition: 'background .2s' }}
+              <a href="#contact" style={{ display: 'block', textAlign: 'center', background: '#C9A97A', color: '#1F1508', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '18px', textDecoration: 'none', fontWeight: 600, transition: 'background .2s' }}
                 onMouseEnter={e => (e.currentTarget.style.background = '#F5F2EC')}
                 onMouseLeave={e => (e.currentTarget.style.background = '#C9A97A')}
               >Schedule a Tour</a>
