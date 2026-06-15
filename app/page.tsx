@@ -311,7 +311,7 @@ function SiteMap() {
 
   return (
     <>
-      <div style={{ maxWidth: 640, marginBottom: 32, border: '1px solid #D9D5CF' }}>
+      <div style={{ maxWidth: 900, marginBottom: 32, border: '1px solid #D9D5CF' }}>
         <div style={{ padding: '10px 16px', fontSize: 9, letterSpacing: '.18em', textTransform: 'uppercase', color: '#A89887', borderBottom: '1px solid #E8E3D8', background: '#EDE9E0' }}>
           Site Plan · 5005 Exposition Drive · Johnstown, CO 80534
         </div>
