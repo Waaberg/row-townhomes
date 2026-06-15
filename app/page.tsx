@@ -464,7 +464,7 @@ export default function Home() {
           </div>
           <div className="reveal mt-12 text-center">
             <a href="#contact" className="inline-block bg-brown text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-brown-mid transition-colors">
-              Join the Interest List
+              Schedule a Tour
             </a>
           </div>
         </div>
