@@ -160,7 +160,7 @@ function Nav({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (v: bo
       borderBottom: '1px solid rgba(255,255,255,0.06)',
       transition: 'background .3s',
     }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
+      <div className="nav-wrap" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
         <a href="#" style={{ textDecoration: 'none' }}>
           <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 18, color: '#F5F2EC', letterSpacing: '.03em', lineHeight: 1.1 }}>The Row</div>
           <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.28em', textTransform: 'uppercase', color: '#A89887', marginTop: 2 }}>at 2534</div>
@@ -237,7 +237,7 @@ function PhotoStrip() {
 
   return (
     <>
-      <div ref={stripRef} style={{ display: 'flex', gap: 3, overflowX: 'auto', padding: '0 40px', scrollbarWidth: 'none', cursor: 'grab', userSelect: 'none' }}>
+      <div ref={stripRef} className="photo-strip" style={{ display: 'flex', gap: 3, overflowX: 'auto', padding: '0 40px', scrollbarWidth: 'none', cursor: 'grab', userSelect: 'none' }}>
         {PHOTOS.map((p, i) => (
           <div key={i} onClick={() => setLightbox(i)} style={{ flex: `0 0 ${p.wide ? 480 : 300}px`, height: 360, position: 'relative', overflow: 'hidden', cursor: 'pointer', transition: 'flex-basis .4s ease' }}
             onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.flexBasis = '420px'; }}
@@ -311,7 +311,7 @@ function SiteMap() {
 
   return (
     <>
-      <div style={{ maxWidth: 900, marginBottom: 32, border: '1px solid #D9D5CF' }}>
+      <div className="sitemap-map" style={{ maxWidth: 900, marginBottom: 32, border: '1px solid #D9D5CF' }}>
         <div style={{ padding: '10px 16px', fontSize: 9, letterSpacing: '.18em', textTransform: 'uppercase', color: '#A89887', borderBottom: '1px solid #E8E3D8', background: '#EDE9E0' }}>
           Site Plan · 5005 Exposition Drive · Johnstown, CO 80534
         </div>
@@ -320,7 +320,7 @@ function SiteMap() {
       </div>
 
       {ROWS.map((row, ri) => (
-        <div key={ri} style={{ display: 'flex', gap: 2, marginBottom: ri === 0 ? 8 : 2 }}>
+        <div key={ri} className="bldg-row-wrap" style={{ display: 'flex', gap: 2, marginBottom: ri === 0 ? 8 : 2 }}>
           {row.buildings.map(b => {
             const open = openBldg === b.name
             const aC = b.units.filter(u => pType(u) === 'addison').length
@@ -358,7 +358,7 @@ function SiteMap() {
 
       <div style={{ background: '#1F1508', color: '#F5F2EC', overflow: 'hidden', maxHeight: selUnit ? 260 : 0, transition: 'max-height .3s ease' }}>
         {plan && selUnit && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: 28, alignItems: 'start', padding: '28px 32px' }}>
+          <div className="detail-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: 28, alignItems: 'start', padding: '28px 32px' }}>
             <div>
               <div style={{ fontSize: 8, letterSpacing: '.16em', textTransform: 'uppercase', color: '#A89887', marginBottom: 5 }}>Floor Plan</div>
               <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 300, color: '#F5F2EC', lineHeight: 1 }}>{plan.name}</div>
@@ -502,8 +502,46 @@ export default function Home() {
         @media (max-width: 768px) {
           .hide-mobile { display: none !important; }
           .show-mobile { display: block !important; }
-          .mobile-col { grid-template-columns: 1fr !important; }
-          .mobile-full { flex-basis: 280px !important; }
+          .mobile-col { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .mobile-full { flex-basis: 260px !important; }
+
+          /* NAV */
+          .nav-wrap { padding: 0 20px !important; height: 58px !important; }
+
+          /* HERO */
+          .hero-content { padding: 0 20px 52px !important; }
+
+          /* STATS — 2 col */
+          .stats-grid { grid-template-columns: 1fr 1fr !important; }
+          .stats-cell { padding: 24px 16px !important; border-bottom: 1px solid rgba(255,255,255,.06); }
+
+          /* SECTION WRAPPERS */
+          .section-pad { padding: 60px 0 !important; }
+          .section-inner { padding: 0 20px !important; }
+
+          /* FEATURES — 2 col */
+          .features-grid { grid-template-columns: 1fr 1fr !important; }
+
+          /* PHOTO STRIP */
+          .photo-strip { padding: 0 16px !important; }
+
+          /* SITE MAP — full width */
+          .sitemap-map { max-width: 100% !important; }
+
+          /* BUILDING ROWS — wrap */
+          .bldg-row-wrap { flex-wrap: wrap !important; }
+
+          /* DETAIL PANEL — 2 col */
+          .detail-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; padding: 20px !important; }
+
+          /* FLOOR PLANS */
+          .floor-tab-content { grid-template-columns: 1fr !important; gap: 28px !important; }
+
+          /* LOCATION MAP */
+          .location-map { height: 260px !important; }
+
+          /* CONTACT TOUR BOX */
+          .contact-tour-box { padding: 32px 24px !important; min-height: auto !important; }
         }
         @media (min-width: 769px) { .show-mobile { display: none !important; } }
         ::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -559,7 +597,7 @@ export default function Home() {
       {/* ── STATS ── */}
       <div style={{ background: '#1F1508', borderTop: '1px solid rgba(255,255,255,.06)' }}>
         <div style={{ ...S.wrap }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderLeft: '1px solid rgba(255,255,255,.06)' }} className="mobile-col">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderLeft: '1px solid rgba(255,255,255,.06)' }} className="mobile-col stats-grid">
             {[{ num: '32', label: 'Residences' }, { num: '3', label: 'Bedrooms' }, { num: '2–3', label: 'Car Garages' }, { num: '$2,795', label: 'Starting / Mo' }].map(s => (
               <div key={s.label} style={{ padding: '32px 0 32px 36px', borderRight: '1px solid rgba(255,255,255,.06)' }}>
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, color: '#C9A97A', fontWeight: 300 }}>{s.num}</div>
@@ -657,7 +695,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="reveal reveal-d1" style={{ height: 420, overflow: 'hidden' }}>
+            <div className="reveal reveal-d1 location-map" style={{ height: 420, overflow: 'hidden' }}>
               <iframe
                 title="The Row at 2534 location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3044.2!2d-104.9089!3d40.3368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876ea2b3e1234567%3A0x0!2s5005+Exposition+Dr%2C+Johnstown%2C+CO+80534!5e0!3m2!1sen!2sus!4v1718000000000"
@@ -685,7 +723,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="reveal reveal-d1" style={{ background: '#1F1508', padding: 44, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 420 }}>
+            <div className="reveal reveal-d1 contact-tour-box" style={{ background: '#1F1508', padding: 44, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 420 }}>
               <div>
                 <div style={{ width: 24, height: 1, background: '#C9A97A', marginBottom: 32 }} />
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 300, color: '#F5F2EC', lineHeight: 1.1, marginBottom: 20 }}>See it<br />for yourself.</div>
