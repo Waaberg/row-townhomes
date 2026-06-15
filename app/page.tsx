@@ -529,10 +529,10 @@ export default function Home() {
           <div style={{ maxWidth: 680 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
               <div style={{ width: 40, height: 1, background: '#C9A97A' }} />
-              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.24em', textTransform: 'uppercase', color: '#C9A97A' }}>Johnstown, Colorado · Now Leasing</span>
+              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.24em', textTransform: 'uppercase', color: '#C9A97A' }}>At 2534 · Now Leasing</span>
             </div>
             <h1 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300, fontSize: 'clamp(44px, 6.5vw, 88px)', lineHeight: 1.02, color: '#F5F2EC', letterSpacing: '-.02em', marginBottom: 28 }}>
-              Luxury Townhomes<br />for Lease in<br /><em style={{ fontStyle: 'italic', color: '#C9A97A' }}>Johnstown, CO.</em>
+              Luxury Townhomes<br />for Lease in<br /><em style={{ fontStyle: 'italic', color: '#C9A97A' }}>At 2534.</em>
             </h1>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, color: 'rgba(245,242,236,.65)', lineHeight: 1.75, maxWidth: 480, marginBottom: 40 }}>
               32 residences at 5005 Exposition Drive. Three bedrooms, private fenced yards, oversized garages — designed without compromise.
@@ -646,8 +646,8 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }} className="mobile-col">
             <div className="reveal">
               <div style={{ ...S.eyebrow, color: '#A89887' }}>Location</div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(34px, 4vw, 48px)', fontWeight: 300, color: '#F5F2EC', marginBottom: 16, lineHeight: 1.1 }}>5005 Exposition Dr,<br />Johnstown, CO.</h2>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(245,242,236,.5)', lineHeight: 1.75, marginBottom: 32 }}>Positioned at the Johnstown-Windsor border. Twenty minutes to Fort Collins. Quick access to I-25. Close enough to everything — far enough from the noise.</p>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(34px, 4vw, 48px)', fontWeight: 300, color: '#F5F2EC', marginBottom: 16, lineHeight: 1.1 }}>5005 Exposition Dr,<br />At 2534.</h2>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(245,242,236,.5)', lineHeight: 1.75, marginBottom: 32 }}>Positioned at the Loveland-Windsor border. Twenty minutes to Fort Collins. Quick access to I-25. Close enough to everything — far enough from the noise.</p>
               <div style={{ borderTop: '1px solid rgba(255,255,255,.08)', paddingTop: 28, display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {[['Address', '5005 Exposition Dr, Johnstown, CO 80534'], ['Fort Collins', '~20 min north via I-25'], ['Greeley', '~30 min east'], ['Denver', '~1 hr south']].map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', gap: 24 }}>
