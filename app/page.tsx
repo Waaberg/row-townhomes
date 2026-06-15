@@ -71,8 +71,56 @@ const PLANS = {
   },
 }
 
-const ADDISON_UNITS = ['5079','5075','5071','5067','5063','5059','5055','5051','5047','5043','5039','5035','5031','5027']
-const FORGE_UNITS   = ['5077','5073','5069','5065','5061','5057','5049','5045','5041','5037','5033','5029']
+// Buildings with correct Addison/Forge assignments from the actual site plan
+const BUILDINGS = [
+  { id: 'B1', label: 'Building 1', units: [
+    { num: '5079', plan: 'addison' as const },
+    { num: '5075', plan: 'forge' as const },
+    { num: '5071', plan: 'forge' as const },
+    { num: '5067', plan: 'forge' as const },
+    { num: '5063', plan: 'forge' as const },
+    { num: '5059', plan: 'addison' as const },
+  ]},
+  { id: 'B2', label: 'Building 2', units: [
+    { num: '5055', plan: 'addison' as const },
+    { num: '5051', plan: 'forge' as const },
+    { num: '5047', plan: 'addison' as const },
+    { num: '5043', plan: 'addison' as const },
+  ]},
+  { id: 'B3', label: 'Building 3', units: [
+    { num: '5039', plan: 'addison' as const },
+    { num: '5035', plan: 'forge' as const },
+    { num: '5031', plan: 'addison' as const },
+    { num: '5027', plan: 'addison' as const },
+  ]},
+  { id: 'B4', label: 'Building 4', units: [
+    { num: '5077', plan: 'addison' as const },
+    { num: '5073', plan: 'forge' as const },
+    { num: '5069', plan: 'forge' as const },
+    { num: '5065', plan: 'forge' as const },
+    { num: '5061', plan: 'forge' as const },
+    { num: '5057', plan: 'addison' as const },
+  ]},
+  { id: 'B5', label: 'Building 5', units: [
+    { num: '5049', plan: 'addison' as const },
+    { num: '5045', plan: 'forge' as const },
+    { num: '5041', plan: 'addison' as const },
+  ]},
+  { id: 'B6', label: 'Building 6', units: [
+    { num: '5037', plan: 'addison' as const },
+    { num: '5033', plan: 'forge' as const },
+    { num: '5029', plan: 'addison' as const },
+    { num: '5025', plan: 'addison' as const },
+  ]},
+  { id: 'B7', label: 'Building 7', units: [
+    { num: '5021', plan: 'addison' as const },
+    { num: '5017', plan: 'addison' as const },
+    { num: '5013', plan: 'forge' as const },
+    { num: '5009', plan: 'forge' as const },
+    { num: '5005', plan: 'addison' as const },
+    { num: '5001', plan: 'forge' as const },
+  ]},
+]
 
 /* ─── SCROLL REVEAL ─────────────────────────────────── */
 function useReveal() {
@@ -229,75 +277,175 @@ function SiteMap() {
   const [floorLightbox, setFloorLightbox] = useState<number | null>(null)
   const plan = selected ? PLANS[selected.plan] : null
 
+  const A_COLOR = '#C9A97A'
+  const F_COLOR = '#7A6852'
+  const A_LIGHT = 'rgba(201,169,122,.18)'
+  const F_LIGHT = 'rgba(122,104,82,.18)'
+
+  // Render a single unit rectangle in SVG
+  const Unit = ({ x, y, w, h, unit, rotate = 0 }: { x: number; y: number; w: number; h: number; unit: { num: string; plan: 'addison' | 'forge' }; rotate?: number }) => {
+    const isSelected = selected?.unit === unit.num
+    const color = unit.plan === 'addison' ? A_COLOR : F_COLOR
+    const fill = isSelected ? color : (unit.plan === 'addison' ? A_LIGHT : F_LIGHT)
+    const stroke = isSelected ? color : (unit.plan === 'addison' ? 'rgba(201,169,122,.5)' : 'rgba(122,104,82,.5)')
+    const cx = x + w / 2
+    const cy = y + h / 2
+    const transform = rotate ? `rotate(${rotate} ${cx} ${cy})` : undefined
+
+    return (
+      <g transform={transform} style={{ cursor: 'pointer' }} onClick={() => setSelected({ plan: unit.plan, unit: unit.num })}>
+        <rect x={x} y={y} width={w} height={h} fill={fill} stroke={stroke} strokeWidth={isSelected ? 1.5 : 1} rx={1}
+          style={{ transition: 'all .2s' }}
+        />
+        {/* Garage indicator bar */}
+        <rect x={x} y={y + h - 6} width={w} height={6} fill={color} opacity={isSelected ? .9 : .35} rx={1} />
+        <text x={cx} y={cy - 2} textAnchor="middle" dominantBaseline="middle"
+          style={{ fontFamily: "'Inter', sans-serif", fontSize: 7, fill: isSelected ? '#1F1508' : '#7A6852', fontWeight: isSelected ? '600' : '400', pointerEvents: 'none', userSelect: 'none' }}
+        >{unit.num}</text>
+      </g>
+    )
+  }
+
+  // Building label
+  const BLabel = ({ x, y, label }: { x: number; y: number; label: string }) => (
+    <text x={x} y={y} textAnchor="middle"
+      style={{ fontFamily: "'Inter', sans-serif", fontSize: 8, fill: 'rgba(31,21,8,.35)', letterSpacing: '.12em', textTransform: 'uppercase', pointerEvents: 'none' }}
+    >{label}</text>
+  )
+
+  // Road label
+  const Road = ({ x, y, label, rotate = 0 }: { x: number; y: number; label: string; rotate?: number }) => (
+    <text x={x} y={y} textAnchor="middle" transform={rotate ? `rotate(${rotate} ${x} ${y})` : undefined}
+      style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, fill: 'rgba(31,21,8,.4)', letterSpacing: '.14em', textTransform: 'uppercase', pointerEvents: 'none' }}
+    >{label}</text>
+  )
+
+  const UW = 36  // unit width
+  const UH = 48  // unit height
+  const GAP = 4  // gap between units
+
+  // Building helper: renders a row of units left-to-right
+  const buildRow = (units: typeof BUILDINGS[0]['units'], startX: number, startY: number) =>
+    units.map((u, i) => <Unit key={u.num} x={startX + i * (UW + GAP)} y={startY} w={UW} h={UH} unit={u} />)
+
+  const buildCol = (units: typeof BUILDINGS[0]['units'], startX: number, startY: number) =>
+    units.map((u, i) => <Unit key={u.num} x={startX} y={startY + i * (UH + GAP)} w={UW} h={UH} unit={u} />)
+
+  // SVG viewBox layout
+  // Left side: Buildings 4, 5, 6 (stacked vertically, facing right)
+  // Right side: Buildings 1, 2, 3 (stacked vertically, facing left)
+  // Bottom: Building 7 (diagonal — we'll approximate as rotated)
+  // Road on left: Exposition Drive
+  // Road on bottom: Thompson Parkway
+  // Center: internal drive
+
+  const B1 = BUILDINGS[0].units  // right top
+  const B2 = BUILDINGS[1].units  // right mid
+  const B3 = BUILDINGS[2].units  // right bottom
+  const B4 = BUILDINGS[3].units  // left top
+  const B5 = BUILDINGS[4].units  // left mid
+  const B6 = BUILDINGS[5].units  // left bottom
+  const B7 = BUILDINGS[6].units  // bottom diagonal
+
+  // Layout coordinates
+  const rightX = 320  // right column x
+  const leftX = 60    // left column x
+  const ctrX = 230    // center drive x
+
+  const row1Y = 30    // top row
+  const row2Y = 140   // mid row
+  const row3Y = 230   // bottom row
+  const driveY = 320  // main internal drive y
+  const b7Y = 360     // building 7 y
+
   return (
     <>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 48, alignItems: 'start' }}>
-        {/* Map canvas */}
-        <div style={{ background: '#F0EBE2', border: '1px solid #D9D5CF', padding: 28 }}>
-          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', color: '#A89887', textAlign: 'center', marginBottom: 20 }}>
-            5005 Exposition Drive — Johnstown, CO
+
+        {/* SVG Map */}
+        <div style={{ background: '#F0EBE2', border: '1px solid #D9D5CF', padding: '20px 16px', overflowX: 'auto' }}>
+          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', color: '#A89887', textAlign: 'center', marginBottom: 12 }}>
+            5005 Exposition Drive — Johnstown, CO · Select a unit
           </div>
 
-          {/* Addison row */}
-          <div style={{ marginBottom: 4 }}>
-            <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, letterSpacing: '.14em', textTransform: 'uppercase', color: '#C9A97A', marginBottom: 6, textAlign: 'center' }}>The Addison — 2-Car Garage</div>
-            <div style={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
-              {ADDISON_UNITS.map(u => (
-                <button key={u} onClick={() => setSelected({ plan: 'addison', unit: u })} style={{
-                  width: 44, height: 56, background: selected?.unit === u ? '#C9A97A' : 'white',
-                  border: `1px solid ${selected?.unit === u ? '#C9A97A' : '#D9D5CF'}`,
-                  cursor: 'pointer', position: 'relative', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 4,
-                  transition: 'all .2s', fontFamily: "'Inter', sans-serif", fontSize: 7, color: selected?.unit === u ? '#1F1508' : '#A89887',
-                  boxShadow: selected?.unit === u ? '0 4px 16px rgba(201,169,122,.35)' : 'none',
-                }}
-                  onMouseEnter={e => { if (selected?.unit !== u) { (e.currentTarget as HTMLButtonElement).style.borderColor = '#C9A97A'; (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-3px)'; } }}
-                  onMouseLeave={e => { if (selected?.unit !== u) { (e.currentTarget as HTMLButtonElement).style.borderColor = '#D9D5CF'; (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)'; } }}
-                >
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 5, background: selected?.unit === u ? '#1F1508' : '#C9A97A', opacity: selected?.unit === u ? .8 : .4, transition: 'all .2s' }} />
-                  {u}
-                </button>
-              ))}
-            </div>
-          </div>
+          <svg viewBox="0 0 620 520" style={{ width: '100%', maxWidth: 620, display: 'block', margin: '0 auto' }}>
 
-          <div style={{ height: 18, background: '#E0DBD3', margin: '8px 0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: '#A89887' }}>Internal Drive</span>
-          </div>
+            {/* Background */}
+            <rect width={620} height={520} fill="#F0EBE2" />
 
-          {/* Forge row */}
-          <div>
-            <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, letterSpacing: '.14em', textTransform: 'uppercase', color: '#B08D57', marginBottom: 6, textAlign: 'center' }}>The Forge — 3-Car Garage</div>
-            <div style={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
-              {FORGE_UNITS.map(u => (
-                <button key={u} onClick={() => setSelected({ plan: 'forge', unit: u })} style={{
-                  width: 44, height: 56, background: selected?.unit === u ? '#B08D57' : 'white',
-                  border: `1px solid ${selected?.unit === u ? '#B08D57' : '#D9D5CF'}`,
-                  cursor: 'pointer', position: 'relative', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 4,
-                  transition: 'all .2s', fontFamily: "'Inter', sans-serif", fontSize: 7, color: selected?.unit === u ? '#1F1508' : '#A89887',
-                  boxShadow: selected?.unit === u ? '0 4px 16px rgba(176,141,87,.35)' : 'none',
-                }}
-                  onMouseEnter={e => { if (selected?.unit !== u) { (e.currentTarget as HTMLButtonElement).style.borderColor = '#B08D57'; (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-3px)'; } }}
-                  onMouseLeave={e => { if (selected?.unit !== u) { (e.currentTarget as HTMLButtonElement).style.borderColor = '#D9D5CF'; (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)'; } }}
-                >
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 5, background: selected?.unit === u ? '#1F1508' : '#B08D57', opacity: selected?.unit === u ? .8 : .4, transition: 'all .2s' }} />
-                  {u}
-                </button>
-              ))}
-            </div>
-          </div>
+            {/* Green areas */}
+            <rect x={0} y={0} width={40} height={440} fill="#d8e8c8" opacity={.4} />
+            <rect x={0} y={440} width={620} height={80} fill="#d8e8c8" opacity={.3} />
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.1em', textTransform: 'uppercase', color: '#A89887' }}>
-              <div style={{ width: 12, height: 12, border: '1px solid #C9A97A', background: 'rgba(201,169,122,.15)' }} />Addison
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.1em', textTransform: 'uppercase', color: '#A89887' }}>
-              <div style={{ width: 12, height: 12, border: '1px solid #B08D57', background: 'rgba(176,141,87,.15)' }} />Forge
-            </div>
-          </div>
+            {/* Exposition Drive — left */}
+            <rect x={0} y={0} width={52} height={440} fill="#DDD8CF" />
+            <Road x={26} y={220} label="EXPOSITION DRIVE" rotate={-90} />
 
-          <div style={{ height: 18, background: '#E0DBD3', marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: '#A89887' }}>Exposition Drive</span>
-          </div>
+            {/* Thompson Parkway — bottom */}
+            <rect x={0} y={460} width={620} height={60} fill="#DDD8CF" />
+            <Road x={340} y={490} label="THOMPSON PARKWAY" />
+
+            {/* Internal drives */}
+            <rect x={52} y={100} width={560} height={18} fill="#E8E2D8" />
+            <Road x={310} y={112} label="INTERNAL DRIVE" />
+            <rect x={52} y={200} width={380} height={16} fill="#E8E2D8" />
+            <rect x={52} y={295} width={380} height={16} fill="#E8E2D8" />
+            {/* Curved drive to B7 */}
+            <path d="M 432 311 Q 432 400 350 430 L 240 455" stroke="#DDD8CF" strokeWidth={40} fill="none" />
+            <path d="M 432 311 Q 432 400 350 430 L 240 455" stroke="#E8E2D8" strokeWidth={36} fill="none" />
+
+            {/* ── BUILDING 1 (right, top) ── 6 units in a column */}
+            <rect x={430} y={22} width={UW * 6 + GAP * 5 + 8} height={UH + 24} fill="#E8E2D8" opacity={.5} rx={2} />
+            {B1.map((u, i) => <Unit key={u.num} x={434 + i * (UW + GAP)} y={30} w={UW} h={UH} unit={u} />)}
+            <BLabel x={556} y={90} label="BLDG 1" />
+
+            {/* ── BUILDING 4 (left, top) ── 6 units in a column */}
+            <rect x={56} y={22} width={UW * 6 + GAP * 5 + 8} height={UH + 24} fill="#E8E2D8" opacity={.5} rx={2} />
+            {B4.map((u, i) => <Unit key={u.num} x={60 + i * (UW + GAP)} y={30} w={UW} h={UH} unit={u} />)}
+            <BLabel x={180} y={90} label="BLDG 4" />
+
+            {/* ── BUILDING 2 (right, mid) ── 4 units */}
+            <rect x={430} y={122} width={UW * 4 + GAP * 3 + 8} height={UH + 24} fill="#E8E2D8" opacity={.5} rx={2} />
+            {B2.map((u, i) => <Unit key={u.num} x={434 + i * (UW + GAP)} y={130} w={UW} h={UH} unit={u} />)}
+            <BLabel x={534} y={190} label="BLDG 2" />
+
+            {/* ── BUILDING 5 (left, mid) ── 3 units */}
+            <rect x={56} y={122} width={UW * 3 + GAP * 2 + 8} height={UH + 24} fill="#E8E2D8" opacity={.5} rx={2} />
+            {B5.map((u, i) => <Unit key={u.num} x={60 + i * (UW + GAP)} y={130} w={UW} h={UH} unit={u} />)}
+            <BLabel x={140} y={190} label="BLDG 5" />
+
+            {/* Dog park + amenities center */}
+            <rect x={230} y={122} width={100} height={70} fill="#b8d4a0" opacity={.5} rx={4} />
+            <text x={280} y={153} textAnchor="middle" style={{ fontFamily: "'Inter', sans-serif", fontSize: 8, fill: '#4a7a3a', letterSpacing: '.1em' }}>DOG</text>
+            <text x={280} y={165} textAnchor="middle" style={{ fontFamily: "'Inter', sans-serif", fontSize: 8, fill: '#4a7a3a', letterSpacing: '.1em' }}>PARK</text>
+
+            {/* ── BUILDING 3 (right, bottom) ── 4 units */}
+            <rect x={430} y={217} width={UW * 4 + GAP * 3 + 8} height={UH + 24} fill="#E8E2D8" opacity={.5} rx={2} />
+            {B3.map((u, i) => <Unit key={u.num} x={434 + i * (UW + GAP)} y={225} w={UW} h={UH} unit={u} />)}
+            <BLabel x={534} y={285} label="BLDG 3" />
+
+            {/* ── BUILDING 6 (left, bottom) ── 4 units */}
+            <rect x={56} y={217} width={UW * 4 + GAP * 3 + 8} height={UH + 24} fill="#E8E2D8" opacity={.5} rx={2} />
+            {B6.map((u, i) => <Unit key={u.num} x={60 + i * (UW + GAP)} y={225} w={UW} h={UH} unit={u} />)}
+            <BLabel x={180} y={285} label="BLDG 6" />
+
+            {/* ── BUILDING 7 (bottom, angled) ── 6 units in 2 rows of 3 */}
+            <g transform="rotate(-18 300 410)">
+              <rect x={220} y={335} width={UW * 3 + GAP * 2 + 8} height={UH * 2 + GAP + 24} fill="#E8E2D8" opacity={.5} rx={2} />
+              {B7.slice(0,3).map((u, i) => <Unit key={u.num} x={224 + i * (UW + GAP)} y={343} w={UW} h={UH} unit={u} />)}
+              {B7.slice(3,6).map((u, i) => <Unit key={u.num} x={224 + i * (UW + GAP)} y={343 + UH + GAP} w={UW} h={UH} unit={u} />)}
+              <BLabel x={296} y={440} label="BLDG 7" />
+            </g>
+
+            {/* Legend */}
+            <g transform="translate(56, 312)">
+              <rect x={0} y={0} width={10} height={10} fill={A_LIGHT} stroke={A_COLOR} strokeWidth={1} rx={1} />
+              <text x={14} y={8} style={{ fontFamily: "'Inter', sans-serif", fontSize: 8, fill: '#7A6852', letterSpacing: '.08em' }}>ADDISON</text>
+              <rect x={80} y={0} width={10} height={10} fill={F_LIGHT} stroke={F_COLOR} strokeWidth={1} rx={1} />
+              <text x={94} y={8} style={{ fontFamily: "'Inter', sans-serif", fontSize: 8, fill: '#7A6852', letterSpacing: '.08em' }}>FORGE</text>
+            </g>
+
+          </svg>
         </div>
 
         {/* Info panel */}
@@ -333,7 +481,6 @@ function SiteMap() {
                 ))}
               </ul>
 
-              {/* Mini floor plan preview */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 20 }}>
                 {plan.floors.map((f, i) => (
                   <button key={i} onClick={() => setFloorLightbox(i)} style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.08)', cursor: 'pointer', padding: 0, position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
@@ -359,7 +506,6 @@ function SiteMap() {
         </div>
       </div>
 
-      {/* Floor plan lightbox */}
       {floorLightbox !== null && plan && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(31,21,8,.97)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={() => setFloorLightbox(null)}>
           <button style={{ position: 'absolute', top: 20, right: 20, background: 'none', border: 'none', color: 'rgba(245,242,236,.5)', fontSize: 32, cursor: 'pointer' }} onClick={() => setFloorLightbox(null)}>×</button>
