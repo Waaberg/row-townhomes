@@ -451,7 +451,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="reveal mb-8 max-w-lg">
             <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-3">What Is Included</p>
-            <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Every detail was a decision.</h2>
+            <h2 className="font-serif text-4xl sm:text-5xl text-brown font-light">Features That Define Modern Living.</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {FEATURES.map((f, i) => (
