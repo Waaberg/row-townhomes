@@ -407,16 +407,12 @@ export default function Home() {
       <section className="relative h-[75vh] min-h-[560px] flex items-center">
         <div className="absolute inset-0">
           <Image src="/images/exterior-street.jpg" alt="The Row Townhomes at 2534 — Johnstown, CO" fill className="object-cover object-center" priority sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-b from-brown/60 via-brown/55 to-brown/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brown/30 via-brown/35 to-brown/65" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-8 w-full">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-6 h-px bg-champagne" />
-              <p className="font-sans text-xs tracking-[0.2em] uppercase text-champagne font-medium">Johnstown, Colorado &middot; Now Leasing</p>
-            </div>
             <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-off-white font-light leading-[1.05] mb-6">
-              Three-story townhomes,<br />built to be lived in.
+              Luxury Townhomes<br />for Lease in<br />Johnstown, CO.
             </h1>
             <p className="font-sans text-off-white/75 text-base leading-relaxed mb-10 max-w-lg">
               32 residences at Exposition Drive and Thompson Parkway. Three bedrooms, private fenced yards, oversized garages. Starting at $2,795/mo.
