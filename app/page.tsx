@@ -588,7 +588,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div style={{ position: 'absolute', right: 40, bottom: 40, textAlign: 'right' }}>
+        <div className="hide-mobile" style={{ position: 'absolute', right: 40, bottom: 40, textAlign: 'right' }}>
           <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', color: '#A89887' }}>Starting At</div>
           <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 52, color: '#F5F2EC', fontWeight: 300, lineHeight: 1 }}>$2,795<span style={{ fontSize: 18, color: '#A89887' }}>/mo</span></div>
         </div>
