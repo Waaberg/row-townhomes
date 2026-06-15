@@ -404,25 +404,28 @@ export default function Home() {
       </header>
 
       {/* HERO */}
-      <section className="relative h-screen min-h-[640px] flex items-end">
+      <section className="relative h-[75vh] min-h-[560px] flex items-center">
         <div className="absolute inset-0">
-          <Image src="/images/exterior-street.jpg" alt="The Row Townhomes at 2534 — Johnstown, CO" fill className="object-cover" priority sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brown/85 via-brown/30 to-brown/5" />
+          <Image src="/images/exterior-street.jpg" alt="The Row Townhomes at 2534 — Johnstown, CO" fill className="object-cover object-center" priority sizes="100vw" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brown/60 via-brown/55 to-brown/80" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-8 pb-20 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-8 w-full">
           <div className="max-w-2xl">
-            <p className="font-sans text-xs tracking-widest uppercase text-champagne mb-5">Johnstown, Colorado &middot; Now Leasing</p>
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-6 h-px bg-champagne" />
+              <p className="font-sans text-xs tracking-[0.2em] uppercase text-champagne font-medium">Johnstown, Colorado &middot; Now Leasing</p>
+            </div>
             <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-off-white font-light leading-[1.05] mb-6">
               Three-story townhomes,<br />built to be lived in.
             </h1>
-            <p className="font-sans text-off-white/65 text-base leading-relaxed mb-10 max-w-lg">
+            <p className="font-sans text-off-white/75 text-base leading-relaxed mb-10 max-w-lg">
               32 residences at Exposition Drive and Thompson Parkway. Three bedrooms, private fenced yards, oversized garages. Starting at $2,795/mo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="#contact" className="bg-champagne text-brown font-sans text-xs tracking-widest uppercase px-8 py-4 hover:bg-off-white transition-colors font-medium text-center">
                 Request a Tour
               </a>
-              <a href="#features" className="border border-off-white/25 text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:border-off-white/60 transition-colors text-center">
+              <a href="#features" className="border border-off-white/40 text-off-white font-sans text-xs tracking-widest uppercase px-8 py-4 hover:border-off-white hover:bg-white/10 transition-colors text-center">
                 Explore Features
               </a>
             </div>
