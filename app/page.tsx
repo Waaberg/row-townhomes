@@ -370,12 +370,10 @@ export default function Home() {
 
           {/* Logo — white bg pill so JPG shows cleanly on dark nav */}
           <a href="#" className="flex items-center gap-3">
-            <div className="relative w-9 h-9 rounded-sm overflow-hidden bg-off-white flex items-center justify-center">
-              <Image src="/images/logo.jpg" alt="The Row Townhomes at 2534" fill className="object-contain p-0.5" sizes="36px" />
-            </div>
-            <div className="hidden sm:block">
-              <div className="font-serif text-sm text-off-white leading-tight">The Row</div>
-              <div className="font-sans text-xs text-taupe tracking-widest uppercase leading-tight">at 2534</div>
+            <div className="bg-off-white rounded-sm px-2 py-1">
+              <div className="relative w-16 h-10">
+                <Image src="/images/logo.jpg" alt="The Row Townhomes at 2534" fill className="object-contain" sizes="64px" />
+              </div>
             </div>
           </a>
 
@@ -411,12 +409,12 @@ export default function Home() {
       {/* HERO */}
       <section className="relative h-screen min-h-[640px] flex items-end">
         <div className="absolute inset-0">
-          <Image src="/images/exterior-street.jpg" alt="The Row Townhomes at 2534 — Loveland, CO" fill className="object-cover" priority sizes="100vw" />
+          <Image src="/images/exterior-street.jpg" alt="The Row Townhomes at 2534 — Johnstown, CO" fill className="object-cover" priority sizes="100vw" />
           <div className="absolute inset-0 bg-gradient-to-t from-brown/85 via-brown/30 to-brown/5" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-8 pb-20 w-full">
           <div className="max-w-2xl">
-            <p className="font-sans text-xs tracking-widest uppercase text-taupe mb-5">Loveland, Colorado &middot; Now Leasing</p>
+            <p className="font-sans text-xs tracking-widest uppercase text-champagne mb-5">Johnstown, Colorado &middot; Now Leasing</p>
             <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-off-white font-light leading-[1.05] mb-6">
               Three-story townhomes,<br />built to be lived in.
             </h1>
@@ -517,11 +515,11 @@ export default function Home() {
               Exposition Drive &amp;<br />Thompson Parkway.
             </h2>
             <p className="font-sans text-off-white/55 text-sm leading-relaxed mb-10">
-              Positioned at the Loveland-Windsor border. Twenty minutes to Fort Collins. Quick access to I-25. Close enough to everything — far enough from the noise.
+              Positioned at the Johnstown-Windsor border. Twenty minutes to Fort Collins. Quick access to I-25. Close enough to everything — far enough from the noise.
             </p>
             <div className="space-y-4 border-t border-white/10 pt-8">
               {[
-                ['Address',      'Exposition Drive & Thompson Pkwy, Loveland, CO 80538'],
+                ['Address',      'Exposition Drive & Thompson Pkwy, Johnstown, CO 80534'],
                 ['Fort Collins', '~20 min north via I-25'],
                 ['Greeley',      '~30 min east'],
                 ['Denver',       '~1 hr south'],
@@ -561,7 +559,7 @@ export default function Home() {
               </div>
               <div className="flex gap-6">
                 <span className="font-sans text-xs tracking-widest uppercase text-taupe w-20 flex-shrink-0 pt-0.5">Address</span>
-                <p className="font-sans text-sm text-brown/60">Exposition Drive &amp; Thompson Pkwy<br />Loveland, CO 80538</p>
+                <p className="font-sans text-sm text-brown/60">Exposition Drive &amp; Thompson Pkwy<br />Johnstown, CO 80534</p>
               </div>
             </div>
           </div>
@@ -575,13 +573,12 @@ export default function Home() {
       <footer className="bg-brown border-t border-white/5 py-10 px-8">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8 rounded-sm overflow-hidden bg-off-white">
-              <Image src="/images/logo.jpg" alt="The Row at 2534" fill className="object-contain p-0.5" sizes="32px" />
+            <div className="bg-off-white rounded-sm px-2 py-1">
+              <div className="relative w-14 h-9">
+                <Image src="/images/logo.jpg" alt="The Row at 2534" fill className="object-contain" sizes="56px" />
+              </div>
             </div>
-            <div>
-              <div className="font-serif text-sm text-off-white">The Row <span className="text-taupe font-light">at 2534</span></div>
-              <div className="font-sans text-xs text-off-white/30">Loveland, CO 80538</div>
-            </div>
+            <div className="font-sans text-xs text-off-white/30">Johnstown, CO 80534</div>
           </div>
           <div className="flex flex-wrap gap-6 justify-center">
             {navLinks.map((l) => (
