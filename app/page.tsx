@@ -405,7 +405,7 @@ function FloorPlans() {
     <>
       <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid #D9D5CF', marginBottom: 48 }}>
         {(['addison', 'forge'] as const).map((p) => (
-          <button key={p} onClick={() => setActive(p)} style={{
+          <button key={p} onClick={() => setActive(p)} className="floor-tab-btn" style={{
             padding: '14px 36px', fontFamily: "'Playfair Display', serif", fontSize: 20,
             cursor: 'pointer', marginBottom: -1, color: active === p ? '#1F1508' : 'rgba(31,21,8,.3)',
             background: 'none', border: 'none', borderBottom: `2px solid ${active === p ? '#1F1508' : 'transparent'}`,
@@ -414,7 +414,7 @@ function FloorPlans() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'start' }}>
+      <div className="floor-tab-content" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'start' }}>
         <div>
           <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', color: '#A89887', marginBottom: 20 }}>{plan.tag}</div>
           <div style={{ display: 'flex', gap: 32, padding: '20px 0', borderTop: '1px solid #D9D5CF', borderBottom: '1px solid #D9D5CF', marginBottom: 24 }}>
@@ -435,7 +435,7 @@ function FloorPlans() {
           </ul>
           <div style={{ marginBottom: 28 }}>
             <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', color: '#A89887', marginBottom: 6 }}>Starting At</div>
-            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 48, color: '#1F1508', fontWeight: 300 }}>$2,795<span style={{ fontSize: 18, color: '#A89887' }}>/mo</span></div>
+            <div className="floor-price" style={{ fontFamily: "'Playfair Display', serif", fontSize: 48, color: '#1F1508', fontWeight: 300 }}>$2,795<span style={{ fontSize: 18, color: '#A89887' }}>/mo</span></div>
           </div>
           <a href="/schedule-a-tour.html" style={{ display: 'inline-block', border: '1px solid #1F1508', color: '#1F1508', fontFamily: "'Inter', sans-serif", fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '14px 32px', textDecoration: 'none', transition: 'all .2s' }}
             onMouseEnter={e => { e.currentTarget.style.background = '#1F1508'; e.currentTarget.style.color = '#F5F2EC'; }}
@@ -443,7 +443,7 @@ function FloorPlans() {
           >Request a Tour</a>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+        <div className="floor-images" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
           {plan.floors.map((f, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <button onClick={() => setFloorLightbox(i)} style={{ width: '100%', aspectRatio: '3/4', background: 'rgba(217,213,207,.4)', border: '1px solid #D9D5CF', cursor: 'pointer', position: 'relative', overflow: 'hidden', display: 'block', padding: 0 }}>
@@ -463,7 +463,7 @@ function FloorPlans() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(31,21,8,.97)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={() => setFloorLightbox(null)}>
           <button style={{ position: 'absolute', top: 20, right: 20, background: 'none', border: 'none', color: 'rgba(245,242,236,.5)', fontSize: 32, cursor: 'pointer' }} onClick={() => setFloorLightbox(null)}>×</button>
           <button style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'rgba(245,242,236,.5)', fontSize: 52, cursor: 'pointer' }} onClick={e => { e.stopPropagation(); setFloorLightbox(p => (p! - 1 + 3) % 3) }}>‹</button>
-          <div style={{ position: 'relative', width: '60vw', maxWidth: 600, height: '80vh', background: 'white' }} onClick={e => e.stopPropagation()}>
+          <div className="floor-lightbox-img" style={{ position: 'relative', width: '60vw', maxWidth: 600, height: '80vh', background: 'white' }} onClick={e => e.stopPropagation()}>
             <Image src={plan.floors[floorLightbox].img} alt={plan.floors[floorLightbox].label} fill className="object-contain" style={{ padding: 24 }} sizes="60vw" priority />
           </div>
           <button style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'rgba(245,242,236,.5)', fontSize: 52, cursor: 'pointer' }} onClick={e => { e.stopPropagation(); setFloorLightbox(p => (p! + 1) % 3) }}>›</button>
@@ -536,6 +536,10 @@ export default function Home() {
 
           /* FLOOR PLANS */
           .floor-tab-content { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .floor-images { grid-template-columns: repeat(3, 1fr) !important; }
+          .floor-tab-btn { padding: 10px 20px !important; font-size: 16px !important; }
+          .floor-price { font-size: 36px !important; }
+          .floor-lightbox-img { width: 92vw !important; height: 70vh !important; }
 
           /* LOCATION MAP */
           .location-map { height: 260px !important; }
