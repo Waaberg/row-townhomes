@@ -761,9 +761,9 @@ function ContactFormInline() {
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
     tourDate: '', tourTime: '', tourType: 'In Person',
-    moveIn: '', currentCity: '', housing: '',
+    moveIn: '',
     occupants: '', pets: '', petType: [] as string[], petCount: '',
-    floorPlan: '', garage: '', source: '', message: ''
+    floorPlan: '', source: '', message: ''
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [error, setError] = useState('')
@@ -796,11 +796,8 @@ function ContactFormInline() {
           form.message,
           `Tour Date: ${form.tourDate} at ${form.tourTime}`,
           `Tour Type: ${form.tourType}`,
-          `Current City: ${form.currentCity}`,
-          `Housing: ${form.housing}`,
           `Occupants: ${form.occupants}`,
           `Pets: ${form.pets}${form.petType.length ? ` (${form.petType.join(', ')})` : ''}${form.petCount ? ` x${form.petCount}` : ''}`,
-          `Garage: ${form.garage}`,
           `Heard Via: ${form.source}`,
         ].filter(Boolean).join(' | ')
       }
@@ -870,17 +867,8 @@ function ContactFormInline() {
         <span style={sL}>Move-In Information</span>
         <div style={{ ...g2, marginBottom: 20 }}>
           <div><label style={lS}>Desired Move-In Date *</label><input name="moveIn" type="date" value={form.moveIn} onChange={handle} required onFocus={focus} onBlur={blur} style={{ ...iS, colorScheme: 'dark' }} /></div>
-          <div><label style={lS}>Current City</label><input name="currentCity" value={form.currentCity} onChange={handle} onFocus={focus} onBlur={blur} style={iS} /></div>
         </div>
-        <label style={lS}>Current Housing Situation</label>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 24px' }}>
-          {['Apartment', 'House Rental', 'Own Home', 'Relocating'].map(h => (
-            <label key={h} style={rS}>
-              <input type="radio" name="housing" value={h} checked={form.housing === h} onChange={handle} style={{ accentColor: '#C9A97A' }} />
-              {h}
-            </label>
-          ))}
-        </div>
+
       </div>
 
       {/* Household */}
@@ -938,18 +926,7 @@ function ContactFormInline() {
         </div>
       </div>
 
-      {/* Garage */}
-      <div>
-        <span style={sL}>Garage Preference</span>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 24px' }}>
-          {['2-Car Garage', '3-Car Garage', 'No Preference'].map(g => (
-            <label key={g} style={rS}>
-              <input type="radio" name="garage" value={g} checked={form.garage === g} onChange={handle} style={{ accentColor: '#C9A97A' }} />
-              {g}
-            </label>
-          ))}
-        </div>
-      </div>
+
 
       {/* How did you hear */}
       <div>
